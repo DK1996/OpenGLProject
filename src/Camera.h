@@ -1,12 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#define GLM_SWIZZLE
-
-#include "glm/glm.hpp"
-#include "glm/ext.hpp"
-
-using namespace glm;
+#include "glm_header.h"
 
 class Camera
 {

@@ -70,7 +70,7 @@ public:
 
 	void setSpeed(float speed) { m_speed = speed; }
 	
-	float m_speed = 2.5f;
+	float m_speed = 50.0f;
 
 	vec3 m_up;
 

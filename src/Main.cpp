@@ -1,11 +1,12 @@
 #include "IntroToOpenGL.h"
 #include "CameraAndProjections.h"
+#include "RenderingGeometry.h"
 
 #include <cstdio>
 
 int main()
 {
-	CamerasAndProjections app;
+	RenderingGeometry app;
 
 	if (app.StartUp() == false)
 	{
