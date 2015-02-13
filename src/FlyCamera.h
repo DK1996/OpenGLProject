@@ -9,11 +9,11 @@ class FlyCamera : public Camera
 public:
 	void Update(float deltaTime)
 	{
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_PRESS)
 		{
 			m_worldTransform[3] += m_worldTransform[2] * m_speed * deltaTime;
 		}
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_PRESS)
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_PRESS)
 		{
 			m_worldTransform[3] -= m_worldTransform[2] * m_speed * deltaTime;
 		}
@@ -70,7 +70,7 @@ public:
 
 	void setSpeed(float speed) { m_speed = speed; }
 	
-	float m_speed = 50.0f;
+	float m_speed = 500.0f;
 
 	vec3 m_up;
 

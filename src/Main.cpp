@@ -1,12 +1,15 @@
 #include "IntroToOpenGL.h"
 #include "CameraAndProjections.h"
 #include "RenderingGeometry.h"
+#include "Texturing.h"
+#include "Lighting.h"
+#include "AdvancedTexture.h"
 
 #include <cstdio>
 
 int main()
 {
-	RenderingGeometry app;
+	AdvancedTexture app;
 
 	if (app.StartUp() == false)
 	{

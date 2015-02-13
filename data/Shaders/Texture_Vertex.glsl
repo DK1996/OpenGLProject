@@ -1,10 +1,14 @@
 #version 410
+
 layout(location=0) in vec4 position;
-layout(location=1) in vec4 color;
-out vec4 out_color;
+layout(location=1) in vec4 tex_coord;
+
+out vec4 frag_tex_coord;
+
 uniform mat4 projection_view;
+
 void main()
 {
-	out_color = color;
+	frag_tex_coord = tex_coord;
 	gl_Position = projection_view * position;
 }

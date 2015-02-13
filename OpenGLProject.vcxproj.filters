@@ -22,6 +22,15 @@
     <Filter Include="Application">
       <UniqueIdentifier>{02404dcf-772d-4fc5-a840-2a664246f218}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Texturing">
+      <UniqueIdentifier>{440e277f-65d3-4701-b738-d58eaf402c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{df25cd4e-c408-451f-897e-11458abf06ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AdvancedTexture">
+      <UniqueIdentifier>{977b3427-e7f1-4f3e-adfe-320cfc4895e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -57,6 +66,21 @@
     <ClInclude Include="src\Uitility.h">
       <Filter>RenderingGeometry</Filter>
     </ClInclude>
+    <ClInclude Include="src\Texturing.h">
+      <Filter>Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\FBXLoader\FBXFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lighting.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdvancedTexture.h">
+      <Filter>AdvancedTexture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -86,12 +110,42 @@
     <ClCompile Include="src\Uitility.cpp">
       <Filter>RenderingGeometry</Filter>
     </ClCompile>
+    <ClCompile Include="src\Texturing.cpp">
+      <Filter>Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lighting.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tiny_obj_loader.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AdvancedTexture.cpp">
+      <Filter>AdvancedTexture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\basic_vertex.glsl">
+    <None Include="data\Shaders\Texture_Vertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="src\basic_fragment.glsl">
+    <None Include="data\Shaders\Texture_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\basic_fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Light_Frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Lighting_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Basic_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Normal_Mapped_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Normal_Mapped_Vertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

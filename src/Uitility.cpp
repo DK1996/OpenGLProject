@@ -2,7 +2,7 @@
 #include "gl_core_4_4.h"
 #include "Uitility.h"
 
-bool Uitility::LoadShader(char* vertex_filename, char* fragment_filename, GLuint* result)
+bool LoadShader(char* vertex_filename, char* fragment_filename, GLuint* result)
 {
 	bool succeeded = false;
 
@@ -36,24 +36,26 @@ bool Uitility::LoadShader(char* vertex_filename, char* fragment_filename, GLuint
 		unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 		unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-		glShaderSource(vertex_shader, 1, (const char**)&vs_source, 0);
+		glShaderSource(vertex_shader, 1, (const char**)&vs_source, &vertex_file_len);
 		glCompileShader(vertex_shader);
 
-		glShaderSource(fragment_shader, 1, (const char**)&fs_source, 0);
+		glShaderSource(fragment_shader, 1, (const char**)&fs_source, &fragment_file_len);
 		glCompileShader(fragment_shader);
 
 		*result = glCreateProgram();
+
 		glAttachShader(*result, vertex_shader);
 		glAttachShader(*result, fragment_shader);
-		glLinkProgram(vertex_shader);
+		glLinkProgram(*result);
 
 		// ERROR CHECKING HERE
 		glGetProgramiv(*result, GL_LINK_STATUS, &success);
 
-		glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
-		if (success == GL_FALSE)
+		glGetShaderiv(*result, GL_COMPILE_STATUS, &success);
+
+		/*if (success == GL_FALSE)
 		{
-			glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &log_len);
+			glGetShaderiv(*result, GL_INFO_LOG_LENGTH, &log_len);
 
 			char* log = new char[log_len];
 
@@ -61,10 +63,10 @@ bool Uitility::LoadShader(char* vertex_filename, char* fragment_filename, GLuint
 
 			printf("%s\n", log);
 
-			succeeded = false;
+			return false;
 
 			delete[] log;
-		}
+		}*/
 
 		if (success == GL_FALSE)
 		{
@@ -76,17 +78,22 @@ bool Uitility::LoadShader(char* vertex_filename, char* fragment_filename, GLuint
 			printf("ERROR: STUFF DONE SCREWED UP IN UR SHADER BUDDY!\n");
 			printf("%s", log);
 
-			succeeded = false;
+			return false;
 
 			delete[] log;
 		}
 
-		delete vs_source;
-		delete fs_source;
+		delete[] vs_source;
+		delete[] fs_source;
 
 		glDeleteShader(fragment_shader);
 		glDeleteShader(vertex_shader);
 
-		return succeeded;
+		fclose(vertex_file);
+		fclose(fragment_file);
+
+		return true;
 	}
+
+	return false;
 }

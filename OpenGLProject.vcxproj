@@ -84,6 +84,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="deps\FBXLoader\FBXFile.h" />
+    <ClInclude Include="src\AdvancedTexture.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CameraAndProjections.h" />
@@ -92,24 +94,37 @@
     <ClInclude Include="src\glm_header.h" />
     <ClInclude Include="src\gl_core_4_4.h" />
     <ClInclude Include="src\IntroToOpenGL.h" />
+    <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\RenderingGeometry.h" />
+    <ClInclude Include="src\Texturing.h" />
+    <ClInclude Include="src\tiny_obj_loader.h" />
     <ClInclude Include="src\Uitility.h" />
     <ClInclude Include="src\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AdvancedTexture.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CameraAndProjections.cpp" />
     <ClCompile Include="src\Gizmos.cpp" />
     <ClCompile Include="src\gl_core_4_4.c" />
     <ClCompile Include="src\IntroToOpenGL.cpp" />
+    <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\RenderingGeometry.cpp" />
+    <ClCompile Include="src\Texturing.cpp" />
+    <ClCompile Include="src\tiny_obj_loader.cc" />
     <ClCompile Include="src\Uitility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\basic_fragment.glsl" />
-    <None Include="src\basic_vertex.glsl" />
+    <None Include="data\Shaders\basic_fragment.glsl" />
+    <None Include="data\Shaders\Basic_Vertex.glsl" />
+    <None Include="data\Shaders\Light_Frag.glsl" />
+    <None Include="data\Shaders\Lighting_Vertex.glsl" />
+    <None Include="data\Shaders\Normal_Mapped_Vertex.glsl" />
+    <None Include="data\Shaders\Normal_Mapped_Fragment.glsl" />
+    <None Include="data\Shaders\Texture_Fragment.glsl" />
+    <None Include="data\Shaders\Texture_Vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
