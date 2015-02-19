@@ -16,9 +16,9 @@ uniform vec3 eye_Pos;
 
 uniform float spec_Power;
 
-uniform sampler2d diff_Tex;
-uniform sampler2d norm_Tex;
-uniform sampler2d spec_Tex;
+uniform sampler2D diff_Tex;
+uniform sampler2D norm_Tex;
+uniform sampler2D spec_Tex;
 
 void main()
 {
@@ -27,14 +27,13 @@ void main()
 	vec3 sampled_Normal = texture(norm_Tex, frag_Tex_Coord).xyz;
 	vec3 adjusted_Normal = sampled_Normal * 2 -1;
 
-	vec3 material_Color = texture(diff_Tex, frag_Tex_Coord).xyz
+	vec3 material_Color = texture(diff_Tex, frag_Tex_Coord).xyz;
 	vec3 ambient = material_Color * ambient_Light;
 	
 	vec3 N = normalize(TBN * adjusted_Normal);
 	vec3 L = normalize(light_Dir);
 
 	float d = max(0.0, dot(N, -L));
-
 	vec3 final_Diffuse = vec3(d) * light_Color * material_Color;
 	
 	vec3 E = normalize(eye_Pos - frag_Position.xyz);

@@ -17,7 +17,7 @@ void main()
 {
 	frag_Position = position.xyz;
 	frag_Norm = normal.xyz;
-	frag_Tangent = tangent.xyz
+	frag_Tangent = tangent.xyz;
 	frag_Bitangent = cross(normal.xyz, tangent.xyz);
 	frag_Tex_Coord = tex_Coord;
 

@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "glm_header.h"
 #include "Vertex.h"
+#include "AntTweakBar.h"
 
 class AdvancedTexture : public Application
 {
@@ -28,12 +29,17 @@ public:
 	vec3 m_light_Color;
 	vec3 m_ambient_Light;
 
+	vec4 m_background_Color;
+
+	float dt;
 	float m_spec_Power;
+
+	bool m_draw_Gizmos;
+	float m_fps;
 
 	Camera* m_camera;
 
-	float dt;
-
+	TwBar* m_bar;
 
 };
 

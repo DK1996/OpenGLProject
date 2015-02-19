@@ -4,12 +4,13 @@
 #include "Texturing.h"
 #include "Lighting.h"
 #include "AdvancedTexture.h"
+#include "Quaternions.h"
 
 #include <cstdio>
 
 int main()
 {
-	AdvancedTexture app;
+	Quaternions app;
 
 	if (app.StartUp() == false)
 	{

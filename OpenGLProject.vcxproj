@@ -41,13 +41,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>./deps/glfw/include;./deps/glm;$(IncludePath)</IncludePath>
-    <LibraryPath>./deps/glfw/lib-vc2013;$(LibraryPath)</LibraryPath>
+    <IncludePath>./deps/glfw/include;./deps/AntTweakBar/include;./deps/glm;$(IncludePath)</IncludePath>
+    <LibraryPath>./deps/glfw/lib-vc2013;./deps/AntTweakBar/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>./deps/glfw/include;./deps/glm;$(IncludePath)</IncludePath>
-    <LibraryPath>./deps/glfw/lib-vc2013;$(LibraryPath)</LibraryPath>
+    <IncludePath>./deps/glfw/include;./deps/AntTweakBar/include;./deps/glm;$(IncludePath)</IncludePath>
+    <LibraryPath>./deps/glfw/lib-vc2013;./deps/AntTweakBar/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)build\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -61,7 +63,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,7 +82,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -95,6 +97,7 @@
     <ClInclude Include="src\gl_core_4_4.h" />
     <ClInclude Include="src\IntroToOpenGL.h" />
     <ClInclude Include="src\Lighting.h" />
+    <ClInclude Include="src\Quaternions.h" />
     <ClInclude Include="src\RenderingGeometry.h" />
     <ClInclude Include="src\Texturing.h" />
     <ClInclude Include="src\tiny_obj_loader.h" />
@@ -111,6 +114,7 @@
     <ClCompile Include="src\IntroToOpenGL.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Quaternions.cpp" />
     <ClCompile Include="src\RenderingGeometry.cpp" />
     <ClCompile Include="src\Texturing.cpp" />
     <ClCompile Include="src\tiny_obj_loader.cc" />

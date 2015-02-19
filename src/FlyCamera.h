@@ -68,7 +68,7 @@ public:
 		this->UpdateProjectionView();
 	}
 
-	void setSpeed(float speed) { m_speed = speed; }
+	void setSpeed(float speed) { m_speed = 50; }
 	
 	float m_speed = 500.0f;
 
