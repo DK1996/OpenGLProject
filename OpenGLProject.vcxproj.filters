@@ -34,6 +34,9 @@
     <Filter Include="Quaternions">
       <UniqueIdentifier>{8d5162b8-0536-431f-8533-3c424bbef59f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{91bb54b7-5d98-4993-9c29-f8acd98bd812}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="src\Quaternions.h">
       <Filter>Quaternions</Filter>
     </ClInclude>
+    <ClInclude Include="src\Animation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -131,6 +137,9 @@
     <ClCompile Include="src\Quaternions.cpp">
       <Filter>Quaternions</Filter>
     </ClCompile>
+    <ClCompile Include="src\Animation.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -157,5 +166,13 @@
     <None Include="data\Shaders\Normal_Mapped_Vertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\Shaders\Skinned_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\Shaders\Skinned_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

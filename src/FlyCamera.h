@@ -68,9 +68,9 @@ public:
 		this->UpdateProjectionView();
 	}
 
-	void setSpeed(float speed) { m_speed = 50; }
+	void setSpeed(float _speed) { m_speed = _speed; }
 	
-	float m_speed = 500.0f;
+	float m_speed = 10;
 
 	vec3 m_up;
 

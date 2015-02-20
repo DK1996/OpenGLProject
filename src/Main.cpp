@@ -5,12 +5,13 @@
 #include "Lighting.h"
 #include "AdvancedTexture.h"
 #include "Quaternions.h"
+#include "Animation.h"
 
 #include <cstdio>
 
 int main()
 {
-	Quaternions app;
+	Animation app;
 
 	if (app.StartUp() == false)
 	{

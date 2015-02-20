@@ -76,7 +76,7 @@ bool Quaternions::Update()
 	dt = (float)glfwGetTime();
 	glfwSetTime(0.0);
 
-	m_timer = dt;
+	m_timer = 2 / dt;
 
 	float sin_Wave = sinf(m_timer) * 0.5f + 0.5f;
 

@@ -53,9 +53,8 @@ bool Application::Update()
 	{
 		return false;
 	}
-	
-	float dt = glfwGetTime();
-	glfwSetTime(0.0);
+
+	Gizmos::clear();
 
 	vec4 white(1);
 	vec4 black(0, 0, 0, 1);

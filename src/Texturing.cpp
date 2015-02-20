@@ -44,6 +44,7 @@ bool Texturing::Update()
 	{
 		return false;
 	}
+	m_camera->Update(dt);
 
 	return true;
 }
@@ -68,7 +69,6 @@ void Texturing::Draw()
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-	m_camera->Update(dt);
 	Gizmos::draw(m_camera->m_projectionView);
 
 	glfwSwapBuffers(m_window);
