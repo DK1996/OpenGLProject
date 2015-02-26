@@ -37,6 +37,9 @@
     <Filter Include="Animation">
       <UniqueIdentifier>{91bb54b7-5d98-4993-9c29-f8acd98bd812}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle Systems">
+      <UniqueIdentifier>{71175243-12c9-4fd0-a7ca-cbba64ae0623}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -93,6 +96,12 @@
     <ClInclude Include="src\Animation.h">
       <Filter>Animation</Filter>
     </ClInclude>
+    <ClInclude Include="src\ParticleSystems.h">
+      <Filter>Particle Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Emitter.h">
+      <Filter>Particle Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -140,6 +149,12 @@
     <ClCompile Include="src\Animation.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParticleSystems.cpp">
+      <Filter>Particle Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Emitter.cpp">
+      <Filter>Particle Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -164,6 +179,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="data\Shaders\Normal_Mapped_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Particle_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Particle_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include "gl_core_4_4.h"
 #include <GLFW/glfw3.h>
 #include "FlyCamera.h"
-
+#include "ParticleSystems.h"
 #include "Uitility.h"
 
 bool Animation::StartUp()
@@ -28,6 +28,7 @@ bool Animation::StartUp()
 
 	GenerateGLMeshes(m_file);
 	LoadShader("./Shaders/Skinned_Vertex.glsl", "./Shaders/Skinned_Fragment.glsl", &m_program_ID);
+	//LoadShader("./Shaders/Particle_Vertex.glsl", "./Shaders/Particle_Fragment.glsl", &m_program_ID);
 
 	m_timer = 0;
 

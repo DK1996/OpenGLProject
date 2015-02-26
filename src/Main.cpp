@@ -6,12 +6,13 @@
 #include "AdvancedTexture.h"
 #include "Quaternions.h"
 #include "Animation.h"
+#include "ParticleSystems.h"
 
 #include <cstdio>
 
 int main()
 {
-	Animation app;
+	ParticleSystems app;
 
 	if (app.StartUp() == false)
 	{

@@ -159,7 +159,7 @@ void AdvancedTexture::Draw()
 	glBindVertexArray(m_quad.m_VAO);
 	glDrawElements(GL_TRIANGLES, m_quad.m_index_Count, GL_UNSIGNED_INT, 0);
 
-	if (m_draw_Gizmos)
+	if (m_draw_Gizmos == true)
 	{
 		Gizmos::draw(m_camera->m_projectionView);
 	}

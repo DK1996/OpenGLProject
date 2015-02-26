@@ -7,6 +7,12 @@ struct Vertex
 	vec4 color;
 };
 
+struct VertexParticles
+{
+	vec4 position;
+	vec4 color;
+};
+
 struct VertexTexCoord
 {
 	vec4 position;
