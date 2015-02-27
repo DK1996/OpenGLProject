@@ -97,6 +97,8 @@
     <ClInclude Include="src\Gizmos.h" />
     <ClInclude Include="src\glm_header.h" />
     <ClInclude Include="src\gl_core_4_4.h" />
+    <ClInclude Include="src\GPUEmitter.h" />
+    <ClInclude Include="src\GPUParticles.h" />
     <ClInclude Include="src\IntroToOpenGL.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\ParticleSystems.h" />
@@ -116,6 +118,8 @@
     <ClCompile Include="src\Emitter.cpp" />
     <ClCompile Include="src\Gizmos.cpp" />
     <ClCompile Include="src\gl_core_4_4.c" />
+    <ClCompile Include="src\GPUEmitter.cpp" />
+    <ClCompile Include="src\GPUParticlescpp.cpp" />
     <ClCompile Include="src\IntroToOpenGL.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -129,16 +133,20 @@
   <ItemGroup>
     <None Include="data\Shaders\basic_fragment.glsl" />
     <None Include="data\Shaders\Basic_Vertex.glsl" />
+    <None Include="data\Shaders\GPU_Particle_Geom.glsl" />
+    <None Include="data\Shaders\GPU_Particle_Vert.glsl" />
     <None Include="data\Shaders\Light_Frag.glsl" />
     <None Include="data\Shaders\Lighting_Vertex.glsl" />
     <None Include="data\Shaders\Normal_Mapped_Vertex.glsl" />
     <None Include="data\Shaders\Normal_Mapped_Fragment.glsl" />
     <None Include="data\Shaders\Particle_Fragment.glsl" />
+    <None Include="data\Shaders\Particle_Update_Vert.glsl" />
     <None Include="data\Shaders\Particle_Vertex.glsl" />
     <None Include="data\Shaders\Texture_Fragment.glsl" />
     <None Include="data\Shaders\Texture_Vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="data\Shaders\GPU_Particle_Frag.glsl" />
     <Text Include="data\Shaders\Skinned_Fragment.glsl" />
     <Text Include="data\Shaders\Skinned_Vertex.glsl" />
   </ItemGroup>

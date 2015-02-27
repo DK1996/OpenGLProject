@@ -63,7 +63,7 @@ bool AdvancedTexture::StartUp()
 
 	GenQuad(5.0f);
 	LoadTexture();
-	LoadShader("./Shaders/Normal_Mapped_Vertex.glsl", "./Shaders/Normal_Mapped_Fragment.glsl", &m_program_ID);
+	LoadShader("./Shaders/Normal_Mapped_Vertex.glsl", nullptr, "./Shaders/Normal_Mapped_Fragment.glsl", &m_program_ID);
 
 	m_ambient_Light = vec3(0.1f);
 	m_light_Color = vec3(0.7f);

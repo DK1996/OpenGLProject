@@ -18,7 +18,7 @@ bool Lighting::StartUp()
 
 	Gizmos::create();
 
-	LoadShader("./Shaders/Lighting_Vertex.glsl", "./Shaders/Light_Frag.glsl", &program_ID);
+	LoadShader("./Shaders/Lighting_Vertex.glsl", nullptr, "./Shaders/Light_Frag.glsl", &program_ID);
 
 	vector<tinyobj::shape_t> shapes;
 	vector<tinyobj::material_t> materials;
@@ -48,7 +48,7 @@ bool Lighting::StartUp()
 
 void Lighting::ReloadShader()
 {
-	LoadShader("./Shaders/Lighting_Vertex.glsl", "./Shaders/Light_Frag.glsl", &program_ID);
+	LoadShader("./Shaders/Lighting_Vertex.glsl", nullptr, "./Shaders/Light_Frag.glsl", &program_ID);
 }
 
 void Lighting::ShutDown()

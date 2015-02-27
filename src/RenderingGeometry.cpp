@@ -19,7 +19,7 @@ bool RenderingGeometry::StartUp()
 	
 	Gizmos::create();
 
-	LoadShader("./Shaders/Basic_Vertex.glsl", "./Shaders/basic_fragment.glsl", &m_program_id);
+	LoadShader("./Shaders/Basic_Vertex.glsl", nullptr, "./Shaders/basic_fragment.glsl", &m_program_id);
 	GenerateGrid(10, 10);
 	
 	m_camera = new FlyCamera();

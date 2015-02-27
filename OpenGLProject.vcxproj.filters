@@ -40,6 +40,9 @@
     <Filter Include="Particle Systems">
       <UniqueIdentifier>{71175243-12c9-4fd0-a7ca-cbba64ae0623}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GPU Particles">
+      <UniqueIdentifier>{c2c1d4a2-de50-4427-aa2e-270bd11866ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -102,6 +105,12 @@
     <ClInclude Include="src\Emitter.h">
       <Filter>Particle Systems</Filter>
     </ClInclude>
+    <ClInclude Include="src\GPUParticles.h">
+      <Filter>GPU Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GPUEmitter.h">
+      <Filter>GPU Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -155,6 +164,12 @@
     <ClCompile Include="src\Emitter.cpp">
       <Filter>Particle Systems</Filter>
     </ClCompile>
+    <ClCompile Include="src\GPUParticlescpp.cpp">
+      <Filter>GPU Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPUEmitter.cpp">
+      <Filter>GPU Particles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -187,12 +202,24 @@
     <None Include="data\Shaders\Particle_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data\Shaders\GPU_Particle_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\GPU_Particle_Geom.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Particle_Update_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Shaders\Skinned_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="data\Shaders\Skinned_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\Shaders\GPU_Particle_Frag.glsl">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

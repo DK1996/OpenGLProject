@@ -7,12 +7,13 @@
 #include "Quaternions.h"
 #include "Animation.h"
 #include "ParticleSystems.h"
+#include "GPUParticles.h"
 
 #include <cstdio>
 
 int main()
 {
-	ParticleSystems app;
+	GPUParticles app;
 
 	if (app.StartUp() == false)
 	{

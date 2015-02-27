@@ -1,6 +1,7 @@
 #ifndef UITILITY_H
 #define UITILITY_H
 
-bool LoadShader(char* vertex_filename, char* fragment_filename, GLuint* result);
+bool LoadShaderType(char* _filename, GLenum _shader_Type, unsigned int* _output);
+bool LoadShader(char* _vertex_Filename,  char* _geometry_Filename, char* _fragment_Filename, GLuint* _result);
 
 #endif
