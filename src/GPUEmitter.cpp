@@ -27,7 +27,7 @@ void GPUPointEmitter::Init(unsigned int _max_Particles, vec3 _position, float _e
 						   float _min_Lifespan, float _max_Lifespan, float _min_Velocity, float _max_Velocity,
 						   float _start_Size, float _end_Size, vec4 _start_Color, vec4 _end_Color)
 {
-	m_position		= (_position);
+	m_position		= _position;
 	m_lifespan_Min	= _min_Lifespan;
 	m_lifespan_Max	= _max_Lifespan;
 	m_velocity_Min	= _min_Velocity;
@@ -151,12 +151,12 @@ void GPUPointEmitter::CreateUpdateShader()
 
 	const char* outputs[4] = { "updated_Position", "updated_Velocity", "updated_Lifespan", "updated_Lifetime" };
 
-	glTransformFeedbackVaryings(m_update_Shader, 4, 0, GL_INTERLEAVED_ATTRIBS);
+	glTransformFeedbackVaryings(m_update_Shader, 4, outputs, GL_INTERLEAVED_ATTRIBS);
 	glLinkProgram(m_update_Shader);
 	glDeleteShader(vs);
 }
 
 void GPUPointEmitter::CreateDrawShader()
 {
-	LoadShader("./Shader/GPU_Particle_Vert.glsl", "./Shaders/GPU_Particle_Geom.glsl", "./Shaders/GPU_Particle_Frag", &m_draw_Shader);
+	LoadShader("./Shaders/GPU_Particle_Vert.glsl", "./Shaders/GPU_Particle_Geom.glsl", "./Shaders/GPU_Particle_Frag.glsl", &m_draw_Shader);
 }

@@ -47,9 +47,9 @@ void main()
 	conrners[3] = billboard_Rot * conrners[3];
 
 	conrners[0] += geo_Position[0];
-	conrners[1] += geo_Position[1];
-	conrners[2] += geo_Position[2];
-	conrners[3] += geo_Position[3];
+	conrners[1] += geo_Position[0];
+	conrners[2] += geo_Position[0];
+	conrners[3] += geo_Position[0];
 
 	gl_Position = projection_View * vec4(conrners[0], 1);
 	EmitVertex();

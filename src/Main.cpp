@@ -8,12 +8,13 @@
 #include "Animation.h"
 #include "ParticleSystems.h"
 #include "GPUParticles.h"
+#include "SceneManagment.h"
 
 #include <cstdio>
 
 int main()
 {
-	GPUParticles app;
+	SceneManagment app;
 
 	if (app.StartUp() == false)
 	{

@@ -43,6 +43,9 @@
     <Filter Include="GPU Particles">
       <UniqueIdentifier>{c2c1d4a2-de50-4427-aa2e-270bd11866ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene Management">
+      <UniqueIdentifier>{10bd7c31-f750-44ce-ba7e-071bda4e4cbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -111,6 +114,15 @@
     <ClInclude Include="src\GPUEmitter.h">
       <Filter>GPU Particles</Filter>
     </ClInclude>
+    <ClInclude Include="src\AABB.h">
+      <Filter>Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingSphere.h">
+      <Filter>Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManagment.h">
+      <Filter>Scene Management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -164,11 +176,20 @@
     <ClCompile Include="src\Emitter.cpp">
       <Filter>Particle Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\GPUParticlescpp.cpp">
-      <Filter>GPU Particles</Filter>
-    </ClCompile>
     <ClCompile Include="src\GPUEmitter.cpp">
       <Filter>GPU Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GPUParticles.cpp">
+      <Filter>GPU Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AABB.cpp">
+      <Filter>Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoundingSphere.cpp">
+      <Filter>Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManagment.cpp">
+      <Filter>Scene Management</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

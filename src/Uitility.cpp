@@ -5,7 +5,7 @@
 
 bool LoadShaderType(char* _filename, GLenum _shader_Type, unsigned int* _output)
 {
-	bool succeeded = false;
+	bool succeeded = true;
 
 	FILE* shader_File = fopen(_filename, "r");
 
@@ -13,42 +13,49 @@ bool LoadShaderType(char* _filename, GLenum _shader_Type, unsigned int* _output)
 	{
 		succeeded = false;
 	}
-	
-	fseek(shader_File, 0, SEEK_END);
-	int shader_File_Len = ftell(shader_File);
-	fseek(shader_File, 0, SEEK_SET);
-
-	char* shader_Source = new char[shader_File_Len];
-	shader_File_Len = fread(shader_Source, 1, shader_File_Len, shader_File);
-
-	succeeded = true;
-	int success = GL_FALSE;
-	int log_len = 0;
-
-	unsigned int shader_Handler = glCreateShader(_shader_Type);
-
-	glShaderSource(shader_Handler, 1, (const char**)&shader_Source, &shader_File_Len);
-	glCompileShader(shader_Handler);
-
-	glGetShaderiv(shader_Handler, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE)
+	else
 	{
-		int info_Log_Len = 0;
-		glGetShaderiv(shader_Handler, GL_INFO_LOG_LENGTH, &info_Log_Len);
+		fseek(shader_File, 0, SEEK_END);
+		int shader_File_Len = ftell(shader_File);
+		fseek(shader_File, 0, SEEK_SET);
 
-		char* info_Log = new char[info_Log_Len];
+		char* shader_Source = new char[shader_File_Len];
+		shader_File_Len = fread(shader_Source, 1, shader_File_Len, shader_File);
 
-		glGetShaderInfoLog(shader_Handler, info_Log_Len, 0, info_Log);
+		succeeded = true;
+		int success = GL_FALSE;
+		int log_len = 0;
 
-		printf("Error: Shader\n");
-		printf("%s \n", info_Log);
+		unsigned int shader_Handler = glCreateShader(_shader_Type);
 
-		delete[] info_Log;
+		glShaderSource(shader_Handler, 1, (const char**)&shader_Source, &shader_File_Len);
+		glCompileShader(shader_Handler);
 
-		fclose(shader_File);
+		glGetShaderiv(shader_Handler, GL_COMPILE_STATUS, &success);
+		if (success == GL_FALSE)
+		{
+			succeeded = false;
+			int info_Log_Len = 0;
+			glGetShaderiv(shader_Handler, GL_INFO_LOG_LENGTH, &info_Log_Len);
 
-		return succeeded;
+			char* info_Log = new char[info_Log_Len];
+
+			glGetShaderInfoLog(shader_Handler, info_Log_Len, 0, info_Log);
+
+			printf("Error: Shader\n");
+			printf("%s \n", info_Log);
+
+			delete[] info_Log;
+
+			fclose(shader_File);
+		}
+		if (succeeded)
+		{
+			*_output = shader_Handler;
+		}
 	}
+	return succeeded;
+	
 }
 
 bool LoadShader(char* _vertex_Filename,  char* _geometry_Filename, char* _fragment_Filename, GLuint* _result)
