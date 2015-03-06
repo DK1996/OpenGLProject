@@ -1,9 +1,4 @@
 #include "AABB.h"
-#include "FlyCamera.h"
-#include "Gizmos.h"
-#include <GLFW/glfw3.h>
-#include "BoundingSphere.h"
-
 
 AABB::AABB()
 {

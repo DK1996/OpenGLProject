@@ -1,10 +1,10 @@
 #ifndef BOUNDING_SPHERE_H
 #define BOUNDING_SPHERE_H
 
-#include "glm_header.h"
 #include <vector>
-
 using namespace std;
+
+#include "glm_header.h"
 
 class BoundingSphere
 {

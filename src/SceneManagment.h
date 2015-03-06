@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "Camera.h"
+#include "BoundingSphere.h"
 
 class SceneManagment : public Application
 {
@@ -12,6 +13,8 @@ public:
 	void ShutDown();
 	bool Update();
 	void Draw();
+
+	void GetFrustumPlanes(const mat4& _transform, vec4* _planes);
 
 private:
 

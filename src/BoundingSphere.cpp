@@ -25,6 +25,6 @@ void BoundingSphere::Fit(const vector<vec3>& _points)
 	}
 
 	m_centre = (m_min + m_max) * 0.5f;
-	m_radius = distance(m_min, m_centre);
+	m_radius = glm::distance(m_min, m_centre);
 
 }

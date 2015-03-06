@@ -2,6 +2,7 @@
 #define	AABB_H
 
 #include <vector>
+#include "glm_header.h"
 
 using namespace std;
 

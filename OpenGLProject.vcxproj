@@ -122,7 +122,9 @@
     <ClCompile Include="src\Emitter.cpp" />
     <ClCompile Include="src\Gizmos.cpp" />
     <ClCompile Include="src\gl_core_4_4.c" />
-    <ClCompile Include="src\GPUEmitter.cpp" />
+    <ClCompile Include="src\GPUEmitter.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\GPUParticles.cpp" />
     <ClCompile Include="src\IntroToOpenGL.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
