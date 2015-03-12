@@ -108,6 +108,7 @@
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\SceneManagment.h" />
     <ClInclude Include="src\Texturing.h" />
+    <ClInclude Include="src\Threading.h" />
     <ClInclude Include="src\tiny_obj_loader.h" />
     <ClInclude Include="src\Uitility.h" />
     <ClInclude Include="src\Vertex.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="src\AABB.cpp" />
     <ClCompile Include="src\SceneManagment.cpp" />
     <ClCompile Include="src\Texturing.cpp" />
+    <ClCompile Include="src\Threading.cpp" />
     <ClCompile Include="src\tiny_obj_loader.cc" />
     <ClCompile Include="src\Uitility.cpp" />
   </ItemGroup>

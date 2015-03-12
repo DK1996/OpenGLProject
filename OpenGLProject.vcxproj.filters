@@ -46,6 +46,9 @@
     <Filter Include="Scene Management">
       <UniqueIdentifier>{10bd7c31-f750-44ce-ba7e-071bda4e4cbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{6e3ba4c3-ecd1-49fb-9d9a-943ec8bf9dd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -123,6 +126,9 @@
     <ClInclude Include="src\SceneManagment.h">
       <Filter>Scene Management</Filter>
     </ClInclude>
+    <ClInclude Include="src\Threading.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="src\SceneManagment.cpp">
       <Filter>Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Threading.cpp">
+      <Filter>Threading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

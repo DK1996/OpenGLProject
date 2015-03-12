@@ -8,13 +8,14 @@
 //#include "Animation.h"
 //#include "ParticleSystems.h"
 //#include "GPUParticles.h"
-#include "SceneManagment.h"
+//#include "SceneManagment.h"
+#include "Threading.h"
 
 #include <cstdio>
 
 int main()
 {
-	SceneManagment app;
+	Threading app;
 
 	if (app.StartUp() == false)
 	{

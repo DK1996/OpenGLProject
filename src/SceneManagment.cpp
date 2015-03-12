@@ -37,6 +37,10 @@ bool SceneManagment::Update()
 		return false;
 	}
 
+	dt = glfwGetTime();
+	glfwSetTime(0.0);
+
+
 	m_camera->Update(dt);
 
 	vec4 plane(0, 1, 0, -1);
@@ -105,6 +109,8 @@ void SceneManagment::Draw()
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+
+	Application::Draw();
 }
 
 void SceneManagment::GetFrustumPlanes(const mat4& _transform, vec4* _planes)
