@@ -49,6 +49,9 @@
     <Filter Include="Threading">
       <UniqueIdentifier>{6e3ba4c3-ecd1-49fb-9d9a-943ec8bf9dd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rednder Targets">
+      <UniqueIdentifier>{f68d4255-d9b5-4eed-b3ac-64cdf69a85b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -129,6 +132,9 @@
     <ClInclude Include="src\Threading.h">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="src\RenderTargets.h">
+      <Filter>Rednder Targets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -199,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="src\Threading.cpp">
       <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTargets.cpp">
+      <Filter>Rednder Targets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

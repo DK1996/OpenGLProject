@@ -9,13 +9,14 @@
 //#include "ParticleSystems.h"
 //#include "GPUParticles.h"
 //#include "SceneManagment.h"
-#include "Threading.h"
+//#include "Threading.h"
+#include "RenderTargets.h"
 
 #include <cstdio>
 
 int main()
 {
-	Threading app;
+	RenderTargets app;
 
 	if (app.StartUp() == false)
 	{

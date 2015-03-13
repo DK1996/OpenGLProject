@@ -16,6 +16,7 @@ bool CamerasAndProjections::StartUp()
 	Gizmos::create();
 
 	m_camera = new FlyCamera();
+	m_camera->setLookAt(vec3(10, 10, 10), vec3(0, 0, 0), vec3(0, 1, 0));
 	m_camera->setPerspective(pi<float>() *0.25, 1280.f / 720.f, 0.1f, 1000.f);
 
 	return true;
@@ -35,6 +36,10 @@ bool CamerasAndProjections::Update()
 		return false;
 	}
 
+	dt = glfwGetTime();
+	glfwSetTime(0.0);
+	m_camera->Update(dt);
+
 	return true;
 }
 
@@ -42,7 +47,6 @@ void CamerasAndProjections::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_camera->Update(dt);
 	Gizmos::draw(m_camera->m_projectionView);
 
 	glfwSwapBuffers(m_window);

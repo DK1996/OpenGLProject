@@ -106,6 +106,7 @@
     <ClInclude Include="src\Quaternions.h" />
     <ClInclude Include="src\RenderingGeometry.h" />
     <ClInclude Include="src\AABB.h" />
+    <ClInclude Include="src\RenderTargets.h" />
     <ClInclude Include="src\SceneManagment.h" />
     <ClInclude Include="src\Texturing.h" />
     <ClInclude Include="src\Threading.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="src\Quaternions.cpp" />
     <ClCompile Include="src\RenderingGeometry.cpp" />
     <ClCompile Include="src\AABB.cpp" />
+    <ClCompile Include="src\RenderTargets.cpp" />
     <ClCompile Include="src\SceneManagment.cpp" />
     <ClCompile Include="src\Texturing.cpp" />
     <ClCompile Include="src\Threading.cpp" />
