@@ -10,13 +10,15 @@
 //#include "GPUParticles.h"
 //#include "SceneManagment.h"
 //#include "Threading.h"
-#include "RenderTargets.h"
+//#include "RenderTargets.h"
+//#include "PostProcess.h"
+#include "Shadows.h"
 
 #include <cstdio>
 
 int main()
 {
-	RenderTargets app;
+	Shadows app;
 
 	if (app.StartUp() == false)
 	{

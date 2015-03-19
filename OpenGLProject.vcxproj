@@ -103,11 +103,13 @@
     <ClInclude Include="src\IntroToOpenGL.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\ParticleSystems.h" />
+    <ClInclude Include="src\PostProcess.h" />
     <ClInclude Include="src\Quaternions.h" />
     <ClInclude Include="src\RenderingGeometry.h" />
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\RenderTargets.h" />
     <ClInclude Include="src\SceneManagment.h" />
+    <ClInclude Include="src\Shadows.h" />
     <ClInclude Include="src\Texturing.h" />
     <ClInclude Include="src\Threading.h" />
     <ClInclude Include="src\tiny_obj_loader.h" />
@@ -132,11 +134,13 @@
     <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ParticleSystems.cpp" />
+    <ClCompile Include="src\PostProcess.cpp" />
     <ClCompile Include="src\Quaternions.cpp" />
     <ClCompile Include="src\RenderingGeometry.cpp" />
     <ClCompile Include="src\AABB.cpp" />
     <ClCompile Include="src\RenderTargets.cpp" />
     <ClCompile Include="src\SceneManagment.cpp" />
+    <ClCompile Include="src\Shadows.cpp" />
     <ClCompile Include="src\Texturing.cpp" />
     <ClCompile Include="src\Threading.cpp" />
     <ClCompile Include="src\tiny_obj_loader.cc" />
@@ -145,6 +149,8 @@
   <ItemGroup>
     <None Include="data\Shaders\basic_fragment.glsl" />
     <None Include="data\Shaders\Basic_Vertex.glsl" />
+    <None Include="data\Shaders\Diffuse_Shadowed_Fragment.glsl" />
+    <None Include="data\Shaders\Diffuse_Shadowed_Vertex.glsl" />
     <None Include="data\Shaders\GPU_Particle_Geom.glsl" />
     <None Include="data\Shaders\GPU_Particle_Vert.glsl" />
     <None Include="data\Shaders\Light_Frag.glsl" />
@@ -154,6 +160,10 @@
     <None Include="data\Shaders\Particle_Fragment.glsl" />
     <None Include="data\Shaders\Particle_Update_Vert.glsl" />
     <None Include="data\Shaders\Particle_Vertex.glsl" />
+    <None Include="data\Shaders\Post_Fragment.glsl" />
+    <None Include="data\Shaders\Post_Vertex.glsl" />
+    <None Include="data\Shaders\Shadow_Map_Fragment.glsl" />
+    <None Include="data\Shaders\Shadow_Map_Vertex.glsl" />
     <None Include="data\Shaders\Texture_Fragment.glsl" />
     <None Include="data\Shaders\Texture_Vertex.glsl" />
   </ItemGroup>

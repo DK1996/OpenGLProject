@@ -52,6 +52,12 @@
     <Filter Include="Rednder Targets">
       <UniqueIdentifier>{f68d4255-d9b5-4eed-b3ac-64cdf69a85b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Post Process">
+      <UniqueIdentifier>{12c942f4-426a-4cad-b560-f4c3cf59fe03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadows">
+      <UniqueIdentifier>{a81fff04-0aa0-4a62-a391-432f6fd80a05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -135,6 +141,12 @@
     <ClInclude Include="src\RenderTargets.h">
       <Filter>Rednder Targets</Filter>
     </ClInclude>
+    <ClInclude Include="src\PostProcess.h">
+      <Filter>Post Process</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shadows.h">
+      <Filter>Shadows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -209,6 +221,12 @@
     <ClCompile Include="src\RenderTargets.cpp">
       <Filter>Rednder Targets</Filter>
     </ClCompile>
+    <ClCompile Include="src\PostProcess.cpp">
+      <Filter>Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shadows.cpp">
+      <Filter>Shadows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -248,6 +266,24 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="data\Shaders\Particle_Update_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Post_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Post_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Diffuse_Shadowed_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Diffuse_Shadowed_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Shadow_Map_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Shadow_Map_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
