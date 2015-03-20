@@ -67,7 +67,7 @@ void Shadows::Draw()
 
 	vec3 light_Dir = normalize(vec3(-1, -2.5f, -1));
 
-	mat4 light_Proj = ortho(-10, 10, -10, 10, -10, 100);
+	mat4 light_Proj = ortho<float>(-10, 10, -10, 10, -10, 100);
 	mat4 light_View = lookAt(-light_Dir, vec3(0), vec3(0, 1, 0));
 
 	mat4 light_Matrix = light_Proj * light_View;
@@ -123,7 +123,12 @@ void Shadows::BuildMeshes()
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 
-	tinyobj::LoadObj(shapes, materials, "./Models/stanford/bunny.obj");
+	std::string err = tinyobj::LoadObj(shapes, materials, "./Models/stanford/bunny.obj");
+
+	if (err.size() != 0)
+	{
+		return;
+	}
 
 	m_bunny.m_index_Count = shapes[0].mesh.indices.size();
 

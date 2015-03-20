@@ -58,6 +58,9 @@
     <Filter Include="Shadows">
       <UniqueIdentifier>{a81fff04-0aa0-4a62-a391-432f6fd80a05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Deferred Rendering">
+      <UniqueIdentifier>{f8642ba6-1c29-4be1-a82e-d323f12173ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="src\Shadows.h">
       <Filter>Shadows</Filter>
     </ClInclude>
+    <ClInclude Include="src\DeferredRendering.h">
+      <Filter>Deferred Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -227,6 +233,9 @@
     <ClCompile Include="src\Shadows.cpp">
       <Filter>Shadows</Filter>
     </ClCompile>
+    <ClCompile Include="src\DeferredRendering.cpp">
+      <Filter>Deferred Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -284,6 +293,21 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="data\Shaders\Shadow_Map_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\GBuffer_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\GBuffer_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Composite_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Composite_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Directional_Light_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

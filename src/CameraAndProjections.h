@@ -15,7 +15,7 @@ public:
 private:
 
 	Camera* m_camera;
-	
+
 	float dt;
 
 };

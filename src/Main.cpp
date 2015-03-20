@@ -12,13 +12,14 @@
 //#include "Threading.h"
 //#include "RenderTargets.h"
 //#include "PostProcess.h"
-#include "Shadows.h"
+//#include "Shadows.h"
+#include "DeferredRendering.h"
 
 #include <cstdio>
 
 int main()
 {
-	Shadows app;
+	DeferredRendering app;
 
 	if (app.StartUp() == false)
 	{
