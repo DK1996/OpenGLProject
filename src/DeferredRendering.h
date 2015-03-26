@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Camera.h"
 #include "Vertex.h"
+#include "AntTweakBar.h"
 
 class DeferredRendering : public Application
 {
@@ -19,12 +20,18 @@ public:
 	void BuildLightBuffer();
 
 	void BuildQuad();
+	void BuildCube();
 
 	void RenderDirectionalLight(vec3 _light_Dir, vec3 _light_Color);
+	void RenderPointLight(vec3 _position, float _radius, vec3 _diffuse);
+
+	void ReloadShader();
 
 	// Load mesh.
 	OpenGLData m_bunny;
 	OpenGLData m_screenspace_Quad;
+	OpenGLData m_light_Cube;
+	// --------------------------------
 
 	// Gen a g-buffer.
 	unsigned int m_gBuffer_FBO;
@@ -32,10 +39,12 @@ public:
 	unsigned int m_position_Texture;
 	unsigned int m_normals_Texture;
 	unsigned int m_gBuffer_Depth;
+	// --------------------------------
 
 	// Render lights.
 	unsigned int m_light_FBO;
 	unsigned int m_light_Texture;
+	// --------------------------------
 
 	// Shaders.
 	unsigned int m_gBuffer_Program;
@@ -43,13 +52,18 @@ public:
 	unsigned int m_point_Light_Program;
 	unsigned int m_spot_Light_Program;
 	unsigned int m_composite_Program;
+	// --------------------------------
 
 	// Composite pass.
+	// --------------------------------
+
+	TwBar* m_bar;
 
 private:
 
 	Camera* m_camera;
 
+	float m_timer;
 	float dt;
 
 };

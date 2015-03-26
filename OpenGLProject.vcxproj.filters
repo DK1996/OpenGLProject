@@ -310,6 +310,12 @@
     <None Include="data\Shaders\Directional_Light_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data\Shaders\Point_Light_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Point_Light_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Shaders\Skinned_Fragment.glsl">
