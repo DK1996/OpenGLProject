@@ -13,13 +13,14 @@
 //#include "RenderTargets.h"
 //#include "PostProcess.h"
 //#include "Shadows.h"
-#include "DeferredRendering.h"
+//#include "DeferredRendering.h"
+#include "ProceduralGeneration.h"
 
 #include <cstdio>
 
 int main()
 {
-	DeferredRendering app;
+	ProceduralGeneration app;
 
 	if (app.StartUp() == false)
 	{
