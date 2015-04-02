@@ -14,13 +14,14 @@
 //#include "PostProcess.h"
 //#include "Shadows.h"
 //#include "DeferredRendering.h"
-#include "ProceduralGeneration.h"
+//#include "ProceduralGeneration.h"
+#include "AdvancedNavigation.h"
 
 #include <cstdio>
 
 int main()
 {
-	ProceduralGeneration app;
+	AdvancedNavigation app;
 
 	if (app.StartUp() == false)
 	{

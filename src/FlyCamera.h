@@ -7,31 +7,31 @@
 class FlyCamera : public Camera
 {
 public:
-	void Update(float deltaTime)
+	void Update(float _deltaTime)
 	{
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_PRESS)
 		{
-			m_worldTransform[3] += m_worldTransform[2] * m_speed * deltaTime;
+			m_worldTransform[3] += m_worldTransform[2] * m_speed * _deltaTime;
 		}
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_PRESS)
 		{
-			m_worldTransform[3] -= m_worldTransform[2] * m_speed * deltaTime;
+			m_worldTransform[3] -= m_worldTransform[2] * m_speed * _deltaTime;
 		}
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_Q) == GLFW_PRESS)
 		{
-			m_worldTransform[3] -= m_worldTransform[1] * m_speed * deltaTime;
+			m_worldTransform[3] -= m_worldTransform[1] * m_speed * _deltaTime;
 		}
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E) == GLFW_PRESS)
 		{
-			m_worldTransform[3] += m_worldTransform[1] * m_speed * deltaTime;
+			m_worldTransform[3] += m_worldTransform[1] * m_speed * _deltaTime;
 		}
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_A) == GLFW_PRESS)
 		{
-			m_worldTransform[3] -= m_worldTransform[0] * m_speed * deltaTime;
+			m_worldTransform[3] -= m_worldTransform[0] * m_speed * _deltaTime;
 		}
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_PRESS)
 		{
-			m_worldTransform[3] += m_worldTransform[0] * m_speed * deltaTime;
+			m_worldTransform[3] += m_worldTransform[0] * m_speed * _deltaTime;
 		}
 
 		double x_delta, y_delta;

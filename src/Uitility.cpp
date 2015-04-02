@@ -1,6 +1,7 @@
 #include <cstdio>
 #include "gl_core_4_4.h"
 #include "Uitility.h"
+#include "tiny_obj_loader.h"
 
 
 bool LoadShaderType(char* _filename, GLenum _shader_Type, unsigned int* _output)
@@ -127,4 +128,54 @@ bool LoadShader(char* _vertex_Filename,  char* _geometry_Filename, char* _fragme
 	}
 	
 	return succeeded;
+}
+
+OpenGLData LoadOBJ(char* _filename)
+{
+	OpenGLData result = {};
+
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+
+	std::string err = tinyobj::LoadObj(shapes, materials, _filename);
+
+	if (err.size() != 0)
+	{
+		return result;
+	}
+
+	result.m_index_Count = shapes[0].mesh.indices.size();
+
+	tinyobj::mesh_t* mesh = &shapes[0].mesh;
+
+	std::vector<float> vertex_Data;
+	vertex_Data.reserve(mesh->positions.size() + mesh->normals.size());
+
+	vertex_Data.insert(vertex_Data.end(), mesh->positions.begin(), mesh->positions.end());
+	vertex_Data.insert(vertex_Data.end(), mesh->normals.begin(), mesh->normals.end());
+
+	glGenVertexArrays(1, &result.m_VAO);
+
+	glGenBuffers(1, &result.m_VBO);
+	glGenBuffers(1, &result.m_IBO);
+
+	glBindVertexArray(result.m_VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, result.m_VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result.m_IBO);
+
+	glBufferData(GL_ARRAY_BUFFER, vertex_Data.size() * sizeof(float), vertex_Data.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)* mesh->indices.size(), mesh->indices.data(), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0); // Position.
+	glEnableVertexAttribArray(1); // Normal.
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float)* mesh->positions.size()));
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	return result;
 }

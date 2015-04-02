@@ -64,6 +64,9 @@
     <Filter Include="Procedural Generation">
       <UniqueIdentifier>{fdb89e02-863d-4353-aff1-336e42c6deea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Advaced Navigation">
+      <UniqueIdentifier>{11ea558b-cb50-4b67-ab0d-beb7f8e991f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="src\ProceduralGeneration.h">
       <Filter>Procedural Generation</Filter>
     </ClInclude>
+    <ClInclude Include="src\AdvancedNavigation.h">
+      <Filter>Advaced Navigation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -245,6 +251,9 @@
     <ClCompile Include="src\ProceduralGeneration.cpp">
       <Filter>Procedural Generation</Filter>
     </ClCompile>
+    <ClCompile Include="src\AdvancedNavigation.cpp">
+      <Filter>Advaced Navigation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\Texture_Vertex.glsl">
@@ -329,6 +338,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="data\Shaders\Perlin_Fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Nav_Mesh_Vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\Shaders\Nav_Mesh_Fragment.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
