@@ -2,7 +2,7 @@
 #define ANIMATION_H_
 
 #include "Application.h"
-#include "Camera.h"
+#include "Camera.h"			
 
 #include <FBXFile.h>
 #include "Vertex.h"

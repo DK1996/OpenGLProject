@@ -15,13 +15,15 @@
 //#include "Shadows.h"
 //#include "DeferredRendering.h"
 //#include "ProceduralGeneration.h"
-#include "AdvancedNavigation.h"
+//#include "AdvancedNavigation.h"
+
+#include "Assignment.h"
 
 #include <cstdio>
 
 int main()
 {
-	AdvancedNavigation app;
+	Assignment app;
 
 	if (app.StartUp() == false)
 	{

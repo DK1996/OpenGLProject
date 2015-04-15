@@ -67,6 +67,9 @@
     <Filter Include="Advaced Navigation">
       <UniqueIdentifier>{11ea558b-cb50-4b67-ab0d-beb7f8e991f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assignment">
+      <UniqueIdentifier>{fc210d63-e363-4ccd-bea3-66928cf3974d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="src\AdvancedNavigation.h">
       <Filter>Advaced Navigation</Filter>
     </ClInclude>
+    <ClInclude Include="src\Assignment.h">
+      <Filter>Assignment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -253,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="src\AdvancedNavigation.cpp">
       <Filter>Advaced Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assignment.cpp">
+      <Filter>Assignment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

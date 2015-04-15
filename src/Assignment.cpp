@@ -1,11 +1,41 @@
-#include "ProceduralGeneration.h"
-#include "gl_core_4_4.h"
-#include "FlyCamera.h"
-#include "Gizmos.h"
-#include <GLFW/glfw3.h>
-#include "Uitility.h"
+#include "Assignment.h"
 
-bool ProceduralGeneration::StartUp()
+
+
+// AntTweakBar controls.
+void OnMouseButton(GLFWwindow*, int b, int a, int m)
+{
+	TwEventMouseButtonGLFW(b, a);
+}
+
+void OnMousePosition(GLFWwindow*, double x, double y)
+{
+	TwEventMousePosGLFW((int)x, (int)y);
+}
+
+void OnMouseScroll(GLFWwindow*, double x, double y)
+{
+	TwEventMouseWheelGLFW((int)y);
+}
+
+void OnKey(GLFWwindow*, int k, int s, int a, int m)
+{
+	TwEventKeyGLFW(k, a);
+}
+
+void OnChar(GLFWwindow*, unsigned int c) 
+{
+	TwEventCharGLFW(c, GLFW_PRESS);
+}
+
+void OnWindowResize(GLFWwindow*, int w, int h) 
+{
+	TwWindowSize(w, h);
+	glViewport(0, 0, w, h);
+}
+// ----------------------------------------------------------------------------
+
+bool Assignment::StartUp()
 {
 	if (Application::StartUp() == false)
 	{
@@ -17,28 +47,55 @@ bool ProceduralGeneration::StartUp()
 
 	Gizmos::create();
 
-	m_time = 0;
+	m_real_Dims		= vec2(25, 25);
+	m_dims			= ivec2(64, 64);
+	m_octaves		= 5;
+	m_persistance	= 0.3f;
 
+	TwInit(TW_OPENGL_CORE, nullptr);
+	TwWindowSize(1280, 720);
+
+	// Makes the all the buttons work for the AntTweakBar work.
+	glfwSetMouseButtonCallback(m_window, OnMouseButton);
+	glfwSetCursorPosCallback(m_window, OnMousePosition);
+	glfwSetScrollCallback(m_window, OnMouseScroll);
+	glfwSetKeyCallback(m_window, OnKey);
+	glfwSetCharCallback(m_window, OnChar);
+	glfwSetWindowSizeCallback(m_window, OnWindowResize);
+	// -----------------------------------
+
+	// Setting yp the FlyCamera.
 	m_camera = new FlyCamera();
 	m_camera->setLookAt(vec3(10, 10, 10), vec3(0, 0, 0), vec3(0, 1, 0));
 	m_camera->setPerspective(pi<float>() *0.25, 1280.f / 720.f, 0.1f, 1000.f);
 
-	BuildGrid(vec2(25, 25), ivec2(64, 64));
-	BuildPerlinTexture(ivec2(64, 64), 5, 0.3);
+	// Calling the grid and the height map for the gid.
+	BuildGrid(m_real_Dims, m_dims);
+	BuildPerlinTexture(m_dims, m_octaves, m_persistance);
+	// -----------------------------------
 
-	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_program_ID);
+	// Loading the shaders here...
+	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);
+	// -----------------------------------
+
+	m_bar = TwNewBar("GUI");
+
+	//TwAddVarRW(m_bar, "")
 
 	return true;
 }
 
-void ProceduralGeneration::ShutDown()
+void Assignment::ShutDown()
 {
+	TwDeleteAllBars();
+	TwTerminate();
+
 	Gizmos::destroy();
 
 	Application::ShutDown();
 }
 
-bool ProceduralGeneration::Update()
+bool Assignment::Update()
 {
 	if (Application::Update() == false)
 	{
@@ -46,7 +103,6 @@ bool ProceduralGeneration::Update()
 	}
 
 	m_dt = glfwGetTime();
-	m_time += m_dt;
 	glfwSetTime(0.0);
 	m_camera->Update(m_dt);
 
@@ -58,35 +114,37 @@ bool ProceduralGeneration::Update()
 	return true;
 }
 
-void ProceduralGeneration::Draw()
+void Assignment::Draw()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Gizmos::draw(m_camera->m_projectionView);
 
-	glUseProgram(m_program_ID);
+	glUseProgram(m_perlin_Program_ID);
 
-	int view_Proj_Uni	= glGetUniformLocation(m_program_ID, "view_Proj");
+	int view_Proj_Uni = glGetUniformLocation(m_perlin_Program_ID, "view_Proj");
 	glUniformMatrix4fv(view_Proj_Uni, 1, GL_FALSE, (float*)&m_camera->m_projectionView);
 
-	int tex_Uni			= glGetUniformLocation(m_program_ID, "perlin_Texture");
+	int tex_Uni = glGetUniformLocation(m_perlin_Program_ID, "perlin_Texture");
 	glUniform1i(tex_Uni, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_perlin_Texture);
 
-	//int time_Uni = glGetUniformLocation(m_program_ID, "time");
-	//glUniform1f(time_Uni, m_time);
-
-	glBindVertexArray(m_plane_Mesh.m_VBO);
+	glBindVertexArray(m_plane_Mesh.m_VAO);
 	glDrawElements(GL_TRIANGLES, m_plane_Mesh.m_index_Count, GL_UNSIGNED_INT, 0);
+
+	TwDraw();
 
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
 }
 
-void ProceduralGeneration::BuildGrid(vec2 _real_Dims, ivec2 _dims)
+void Assignment::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 {
+	m_real_Dims	= _real_Dims;
+	m_dims		= _dims;
+
 	// Compute how many vertices we need.
 	unsigned int vertex_Count = (_dims.x + 1) * (_dims.y + 1);
 
@@ -108,8 +166,8 @@ void ProceduralGeneration::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 		for (int x = 0; x < _dims.x + 1; x++)
 		{
 			// Inside we create our points.
-			vertex_Data[y * (_dims.x + 1) + x].position		= vec4(curr_x, 0, curr_y, 1);
-			vertex_Data[y * (_dims.x + 1) + x].tex_coord	= vec2(x / (float)_dims.x, (float)y / (float)_dims.y);
+			vertex_Data[y * (_dims.x + 1) + x].position = vec4(curr_x, 0, curr_y, 1);
+			vertex_Data[y * (_dims.x + 1) + x].tex_coord = vec2(x / (float)_dims.x, (float)y / (float)_dims.y);
 
 			curr_x += _real_Dims.x / (float)_dims.x;
 		}
@@ -133,7 +191,7 @@ void ProceduralGeneration::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 			index_Data[curr_Index++] = y		* (_dims.x + 1) + x;
 		}
 	}
-	
+
 	m_plane_Mesh.m_index_Count = index_Count;
 
 	// Create VerexArrayObject, buffers, etc.
@@ -166,8 +224,12 @@ void ProceduralGeneration::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 	delete[] index_Data;
 }
 
-void ProceduralGeneration::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistance)
+void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistance)
 {
+	_dims			= m_dims;
+	_octaves		= m_octaves;
+	_persistance	= m_persistance;
+
 	// Set scale.
 	float scale = (1.0f / _dims.x) * 3.0f;
 
@@ -180,7 +242,7 @@ void ProceduralGeneration::BuildPerlinTexture(ivec2 _dims, int _octaves, float _
 		for (int x = 0; x < _dims.x; x++)
 		{
 			float amplitute = 1;
-			float freq		= 1;
+			float freq = 1;
 
 			// Generate our perlin noise.
 			m_perlin_Data[y * _dims.x + x] = 0;
@@ -197,10 +259,10 @@ void ProceduralGeneration::BuildPerlinTexture(ivec2 _dims, int _octaves, float _
 				perlin_Sample *= amplitute;
 
 				// Call perlin function
-				 m_perlin_Data[y * _dims.x + x] += perlin_Sample;
+				m_perlin_Data[y * _dims.x + x] += perlin_Sample;
 
-				 amplitute *= _persistance;
-				 freq *= 2.0f;
+				amplitute *= _persistance;
+				freq *= 2.0f;
 			}
 		}
 	}
@@ -221,7 +283,7 @@ void ProceduralGeneration::BuildPerlinTexture(ivec2 _dims, int _octaves, float _
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void ProceduralGeneration::ReloadShader()
+void Assignment::ReloadShader()
 {
-	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_program_ID);
+	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);
 }
