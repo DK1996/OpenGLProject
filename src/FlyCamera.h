@@ -45,8 +45,8 @@ public:
 		x_delta /= (1280.0f / 2.0f);
 		y_delta /= (720.0f / 2.0f);
 
-		x_delta *= -2.5f;
-		y_delta *= -2.5f;
+		x_delta *= m_sensitivity;
+		y_delta *= m_sensitivity;
 
 		if (glfwGetMouseButton(glfwGetCurrentContext(), 1))
 		{
@@ -70,7 +70,8 @@ public:
 
 	void setSpeed(float _speed) { m_speed = _speed; }
 	
-	float m_speed = 10;
+	float m_speed = 10.0f;
+	float m_sensitivity = -2.5f;
 
 	vec3 m_up;
 

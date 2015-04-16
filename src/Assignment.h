@@ -32,20 +32,32 @@ public:
 
 	unsigned int	m_perlin_Program_ID;
 	unsigned int	m_perlin_Texture;
+	unsigned int	m_terrian_Texture;
+	unsigned int	m_terrian_Normal;
 
 	float*			m_perlin_Data;
 
-	vec2			m_real_Dims;
-	ivec2			m_dims;
+	float			m_real_Dims;
+	float			m_dims;
 
 	int				m_octaves;
-
 	float			m_persistance;
+
+	float			m_amplitute;
+	float			m_freq;
+
+	float			m_scale;
+
+	bool			m_reload;
 	// -----------------------------------
+
+	void LoadTexture();
 
 	void ReloadShader();
 
-	TwBar* m_bar;
+	TwBar*		m_bar;
+
+	FlyCamera*	m_speed;
 
 private:
 

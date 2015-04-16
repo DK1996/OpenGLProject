@@ -1,5 +1,5 @@
 #include "Assignment.h"
-
+#include "stb_image.h"
 
 
 // AntTweakBar controls.
@@ -47,10 +47,15 @@ bool Assignment::StartUp()
 
 	Gizmos::create();
 
-	m_real_Dims		= vec2(25, 25);
-	m_dims			= ivec2(64, 64);
+
+
+	m_real_Dims		= 25.0f;
+	m_dims			= 64;
 	m_octaves		= 5;
 	m_persistance	= 0.3f;
+
+	// Set scale.
+	m_scale			= (1.0f / ivec2(m_dims, m_dims).x * 3.0f);
 
 	TwInit(TW_OPENGL_CORE, nullptr);
 	TwWindowSize(1280, 720);
@@ -70,17 +75,25 @@ bool Assignment::StartUp()
 	m_camera->setPerspective(pi<float>() *0.25, 1280.f / 720.f, 0.1f, 1000.f);
 
 	// Calling the grid and the height map for the gid.
-	BuildGrid(m_real_Dims, m_dims);
-	BuildPerlinTexture(m_dims, m_octaves, m_persistance);
+	BuildGrid(vec2(m_real_Dims, m_real_Dims), ivec2(m_dims, m_dims));
+	BuildPerlinTexture(ivec2(m_dims, m_dims), m_octaves, m_persistance);
 	// -----------------------------------
 
 	// Loading the shaders here...
 	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);
 	// -----------------------------------
 
+	LoadTexture();
+
 	m_bar = TwNewBar("GUI");
 
-	//TwAddVarRW(m_bar, "")
+	TwAddVarRW(m_bar, "Real Dims",		TW_TYPE_FLOAT, &m_real_Dims,	"group=Terrian Settings");
+	TwAddVarRW(m_bar, "Dims",			TW_TYPE_FLOAT, &m_dims,			"group=Terrian Settings");
+	TwAddVarRW(m_bar, "Octaves",		TW_TYPE_INT32, &m_octaves,		"group=Terrian Settings");
+	TwAddVarRW(m_bar, "Persistance",	TW_TYPE_FLOAT, &m_persistance,	"group=Terrian Settings");
+	TwAddVarRW(m_bar, "Jitter",			TW_TYPE_FLOAT, &m_scale,		"group=Terrian Settings");
+
+	TwAddVarRW(m_bar, "Reload", TW_TYPE_BOOL8, &m_reload, "");
 
 	return true;
 }
@@ -100,6 +113,13 @@ bool Assignment::Update()
 	if (Application::Update() == false)
 	{
 		return false;
+	}
+
+	if (m_reload)
+	{
+		m_reload = !m_reload;
+		BuildGrid(vec2(m_real_Dims, m_real_Dims), ivec2(m_dims, m_dims));
+		BuildPerlinTexture(ivec2(m_dims, m_dims), m_octaves, m_persistance);
 	}
 
 	m_dt = glfwGetTime();
@@ -131,6 +151,11 @@ void Assignment::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_perlin_Texture);
 
+	int terrian_Tex_Uni = glGetUniformLocation(m_perlin_Program_ID, "diffuse");
+	glUniform1i(terrian_Tex_Uni, 1);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_terrian_Texture);
+
 	glBindVertexArray(m_plane_Mesh.m_VAO);
 	glDrawElements(GL_TRIANGLES, m_plane_Mesh.m_index_Count, GL_UNSIGNED_INT, 0);
 
@@ -142,9 +167,6 @@ void Assignment::Draw()
 
 void Assignment::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 {
-	m_real_Dims	= _real_Dims;
-	m_dims		= _dims;
-
 	// Compute how many vertices we need.
 	unsigned int vertex_Count = (_dims.x + 1) * (_dims.y + 1);
 
@@ -226,13 +248,6 @@ void Assignment::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 
 void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistance)
 {
-	_dims			= m_dims;
-	_octaves		= m_octaves;
-	_persistance	= m_persistance;
-
-	// Set scale.
-	float scale = (1.0f / _dims.x) * 3.0f;
-
 	// Allocate memory for perlin data.
 	m_perlin_Data = new float[_dims.x * _dims.y];
 
@@ -241,8 +256,8 @@ void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistanc
 	{
 		for (int x = 0; x < _dims.x; x++)
 		{
-			float amplitute = 1;
-			float freq = 1;
+			m_amplitute = 1;
+			m_freq = 1;
 
 			// Generate our perlin noise.
 			m_perlin_Data[y * _dims.x + x] = 0;
@@ -252,17 +267,17 @@ void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistanc
 			{
 				// Each octave will have double the frequency of the pervious one.
 				// To do this we scale our points.
-				float perlin_Sample = glm::perlin(vec2(x, y) * scale * freq) * 0.5f + 0.5f;
+				float perlin_Sample = glm::perlin(vec2(x, y) * m_scale * m_freq) * 0.5f + 0.5f;
 
 				// Each subsequent octave will contribute less and less to the final height.
 				// We do this by muliplying by a smaller and smaller number.
-				perlin_Sample *= amplitute;
+				perlin_Sample *= m_amplitute;
 
 				// Call perlin function
 				m_perlin_Data[y * _dims.x + x] += perlin_Sample;
 
-				amplitute *= _persistance;
-				freq *= 2.0f;
+				m_amplitute *= _persistance;
+				m_freq *= 2.0f;
 			}
 		}
 	}
@@ -281,6 +296,32 @@ void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistanc
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Assignment::LoadTexture()
+{
+	int image_Width = 0, image_Height = 0, image_Format = 0;
+	unsigned char* data;
+
+	data = stbi_load("./textures/rock_diffuse.tga", &image_Width, &image_Height, &image_Format, STBI_default);
+
+	glGenTextures(1, &m_terrian_Texture);
+	glBindTexture(GL_TEXTURE_2D, m_terrian_Texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_Width, image_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
+
+	data = stbi_load("./textures/rock_normal.tga", &image_Width, &image_Height, &image_Format, STBI_default);
+
+	glGenTextures(1, &m_terrian_Normal);
+	glBindTexture(GL_TEXTURE_2D, m_terrian_Normal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_Width, image_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
 }
 
 void Assignment::ReloadShader()
