@@ -47,15 +47,24 @@ bool Assignment::StartUp()
 
 	Gizmos::create();
 
-
-
+	// Setting the values for the procedural generation.
 	m_real_Dims		= 25.0f;
 	m_dims			= 64;
 	m_octaves		= 5;
 	m_persistance	= 0.3f;
 
-	// Set scale.
-	m_scale			= (1.0f / ivec2(m_dims, m_dims).x * 3.0f);
+	m_scale			= (1.0f / ivec2(m_dims, m_dims).x * 3.0f); // Sets the jitter.
+	// -----------------------------------
+
+	// Assigning a model to the fbx file.
+	m_fbx_File = new FBXFile();
+	m_fbx_File->load("./Models/characters/Enemyelite/EnemyElite.fbx");
+	m_fbx_File->initialiseOpenGLTextures();
+	// -----------------------------------
+
+	m_mesh_Position = vec4(0);
+
+	m_timer = 0;
 
 	TwInit(TW_OPENGL_CORE, nullptr);
 	TwWindowSize(1280, 720);
@@ -79,27 +88,29 @@ bool Assignment::StartUp()
 	BuildPerlinTexture(ivec2(m_dims, m_dims), m_octaves, m_persistance);
 	// -----------------------------------
 
+	// Calling the animated mesh.
+	GenerateGLMesh(m_fbx_File);
+	// -----------------------------------
+
 	// Loading the shaders here...
-	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);
+	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);	// Shaders for the procedural generation.
+	LoadShader("./Shaders/Skinned_Vertex.glsl", 0, "./Shaders/Skinned_Fragment.glsl", &m_fbx_Program_ID);	// Shaders for the animation meshes.
 	// -----------------------------------
 
 	LoadTexture();
 
-	m_bar = TwNewBar("GUI");
-
-	TwAddVarRW(m_bar, "Real Dims",		TW_TYPE_FLOAT, &m_real_Dims,	"group=Terrian Settings");
-	TwAddVarRW(m_bar, "Dims",			TW_TYPE_FLOAT, &m_dims,			"group=Terrian Settings");
-	TwAddVarRW(m_bar, "Octaves",		TW_TYPE_INT32, &m_octaves,		"group=Terrian Settings");
-	TwAddVarRW(m_bar, "Persistance",	TW_TYPE_FLOAT, &m_persistance,	"group=Terrian Settings");
-	TwAddVarRW(m_bar, "Jitter",			TW_TYPE_FLOAT, &m_scale,		"group=Terrian Settings");
-
-	TwAddVarRW(m_bar, "Reload", TW_TYPE_BOOL8, &m_reload, "");
+	// Calling the GUI function.
+	AntTweakButtons();
+	// -----------------------------------
 
 	return true;
 }
 
 void Assignment::ShutDown()
 {
+	m_fbx_File->unload();
+	delete m_fbx_File;
+
 	TwDeleteAllBars();
 	TwTerminate();
 
@@ -115,21 +126,51 @@ bool Assignment::Update()
 		return false;
 	}
 
+	m_dt = glfwGetTime();
+	glfwSetTime(0.0);
+	m_camera->Update(m_dt);
+
+	m_timer += (float)m_dt;
+
+	FBXSkeleton*	skeleton	= m_fbx_File->getSkeletonByIndex(0);
+	FBXAnimation*	animation	= m_fbx_File->getAnimationByIndex(0);
+
+	// Updating the skeleton for the animation.
+	EvaluateSkeleton(animation, skeleton, m_timer);
+	
+	for (unsigned int i = 0; i < skeleton->m_boneCount; i++)
+	{
+		skeleton->m_nodes[i]->updateGlobalTransform();
+	
+		mat4 node_Global	= skeleton->m_nodes[i]->m_globalTransform;
+		vec3 node_Pos		= node_Global[3].xyz;
+	
+		Gizmos::addAABBFilled(node_Pos, vec3(10.f), vec4(1, 0, 0, 1), &node_Global);
+	
+		if (skeleton->m_nodes[i]->m_parent != nullptr)
+		{
+			vec3 parent_Pos = skeleton->m_nodes[i]->m_parent->m_globalTransform[3].xyz;
+	
+			Gizmos::addLine(node_Pos, parent_Pos, vec4(0, 1, 0, 1));
+		}
+	}
+	// -----------------------------------
+
+	// Reloading the terrian when the reload button is clicked.
 	if (m_reload)
 	{
 		m_reload = !m_reload;
 		BuildGrid(vec2(m_real_Dims, m_real_Dims), ivec2(m_dims, m_dims));
 		BuildPerlinTexture(ivec2(m_dims, m_dims), m_octaves, m_persistance);
 	}
-
-	m_dt = glfwGetTime();
-	glfwSetTime(0.0);
-	m_camera->Update(m_dt);
-
+	// -----------------------------------
+	
+	// Reloads the shaders when the reload button is pressed.
 	if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS)
 	{
 		ReloadShader();
 	}
+	// -----------------------------------
 
 	return true;
 }
@@ -141,23 +182,62 @@ void Assignment::Draw()
 
 	Gizmos::draw(m_camera->m_projectionView);
 
+	// Drawing the Terrian.
 	glUseProgram(m_perlin_Program_ID);
 
-	int view_Proj_Uni = glGetUniformLocation(m_perlin_Program_ID, "view_Proj");
+	int view_Proj_Uni	= glGetUniformLocation(m_perlin_Program_ID, "view_Proj");
 	glUniformMatrix4fv(view_Proj_Uni, 1, GL_FALSE, (float*)&m_camera->m_projectionView);
 
-	int tex_Uni = glGetUniformLocation(m_perlin_Program_ID, "perlin_Texture");
+	int tex_Uni			= glGetUniformLocation(m_perlin_Program_ID, "perlin_Texture");
 	glUniform1i(tex_Uni, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_perlin_Texture);
 
-	int terrian_Tex_Uni = glGetUniformLocation(m_perlin_Program_ID, "diffuse");
+	int terrian_Tex_Uni	= glGetUniformLocation(m_perlin_Program_ID, "diffuse");
 	glUniform1i(terrian_Tex_Uni, 1);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_terrian_Texture);
 
 	glBindVertexArray(m_plane_Mesh.m_VAO);
 	glDrawElements(GL_TRIANGLES, m_plane_Mesh.m_index_Count, GL_UNSIGNED_INT, 0);
+	// -----------------------------------
+
+	// Drawing the Animated mesh.
+	glUseProgram(m_fbx_Program_ID);
+
+	int proj_View_Uni		= glGetUniformLocation(m_fbx_Program_ID, "projection_view");
+	glUniformMatrix4fv(proj_View_Uni, 1, GL_FALSE, (float*)&m_camera->m_projectionView);
+
+	int diffuse_Uni			= glGetUniformLocation(m_fbx_Program_ID, "diffuse");
+	glUniform1i(diffuse_Uni, 0);
+
+	int pos_Uni				= glGetUniformLocation(m_fbx_Program_ID, "final_Position");
+	glUniform4fv(pos_Uni, 1, (float*)&m_mesh_Position);
+
+	FBXSkeleton* skeleton	= m_fbx_File->getSkeletonByIndex(0);
+	skeleton->updateBones();
+
+	UpdateBones(skeleton);
+
+	int bones_Uni			= glGetUniformLocation(m_fbx_Program_ID, "bones");
+	glUniformMatrix4fv(bones_Uni, skeleton->m_boneCount, GL_FALSE, (float*)skeleton->m_bones);
+
+	for (unsigned int i = 0; i < m_meshes.size(); i++)
+	{
+		FBXMeshNode* current_Mesh	= m_fbx_File->getMeshByIndex(i);
+		FBXMaterial* mesh_Material	= current_Mesh->m_material;
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh_Material->textures[FBXMaterial::DiffuseTexture]->handle);
+
+		mat4 world_Transform	= current_Mesh->m_globalTransform;
+		int world_Uni			= glGetUniformLocation(m_fbx_Program_ID, "world");
+		glUniformMatrix4fv(world_Uni, 1, GL_FALSE, (float*)&world_Transform);
+
+		glBindVertexArray(m_meshes[i].m_VAO);
+		glDrawElements(GL_TRIANGLES, m_meshes[i].m_index_Count, GL_UNSIGNED_INT, 0);
+	}
+	// -----------------------------------
 
 	TwDraw();
 
@@ -165,6 +245,7 @@ void Assignment::Draw()
 	glfwPollEvents();
 }
 
+// Procedural Generation functions.
 void Assignment::BuildGrid(vec2 _real_Dims, ivec2 _dims)
 {
 	// Compute how many vertices we need.
@@ -297,6 +378,136 @@ void Assignment::BuildPerlinTexture(ivec2 _dims, int _octaves, float _persistanc
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+// ----------------------------------------------------------------------------
+
+// Animation Mesh functions.
+void Assignment::GenerateGLMesh(FBXFile* _fbx)
+{
+	unsigned int mesh_Count = _fbx->getMeshCount();
+
+	m_meshes.resize(mesh_Count);
+
+	for (unsigned int  mesh_Index = 0; mesh_Index < mesh_Count; mesh_Index++)
+	{
+		FBXMeshNode* current_Mesh = _fbx->getMeshByIndex(mesh_Index);
+
+		m_meshes[mesh_Index].m_index_Count = current_Mesh->m_indices.size();
+
+		glGenVertexArrays(	1, &m_meshes[mesh_Index].m_VAO );
+		glGenBuffers(		1, &m_meshes[mesh_Index].m_VBO );
+		glGenBuffers(		1, &m_meshes[mesh_Index].m_IBO );
+
+		glBindVertexArray(						m_meshes[mesh_Index].m_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER,			m_meshes[mesh_Index].m_VBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	m_meshes[mesh_Index].m_IBO);
+
+		glBufferData(GL_ARRAY_BUFFER,			sizeof(FBXVertex)*		current_Mesh->m_vertices.size(),	current_Mesh->m_vertices.data(),	GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,	sizeof(unsigned int)*	current_Mesh->m_indices.size(),		current_Mesh->m_indices.data(),		GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0); // Position.
+		glEnableVertexAttribArray(1); // Tex Coord.
+		glEnableVertexAttribArray(2); // Bone Indices.
+		glEnableVertexAttribArray(3); // Bone Weights.
+
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::PositionOffset);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::TexCoord1Offset);
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::IndicesOffset);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::WeightsOffset);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+}
+
+void Assignment::EvaluateSkeleton(FBXAnimation* _animation, FBXSkeleton* _skeletion, float _timer)
+{
+	float fps		= 20.f;
+	int current_Frame = (int)(_timer * fps);
+
+	// Loop through all the bones.
+	for (unsigned int track_Index = 0; track_Index < _animation->m_trackCount; track_Index++)
+	{
+		// Wrap back to the start of the track if we've gone too far.
+		int track_Frame_Count	= _animation->m_tracks[track_Index].m_keyframeCount;
+		int track_Frame			= current_Frame % track_Frame_Count;
+
+		// Find what key frames are currently effecting the bones.
+		FBXKeyFrame curr_Frame = _animation->m_tracks[track_Index].m_keyframes[track_Frame];
+		FBXKeyFrame next_Frame = _animation->m_tracks[track_Index].m_keyframes[(track_Frame + 1) % track_Frame_Count];
+
+		// Find out how far between key frames we are.
+		float TSFF	= _timer - (current_Frame / fps); // TSFF = Time Since Frame Flip.
+		float t		= TSFF * fps;
+
+		// Interpolate between those key frames to generate the matrix for the current pose.
+		vec3 new_Pos			= mix(curr_Frame.m_translation, next_Frame.m_translation, t);
+		vec3 new_Scale			= mix(curr_Frame.m_scale, next_Frame.m_scale, t);
+
+		quat new_Rot			= slerp(curr_Frame.m_rotation, next_Frame.m_rotation, t);
+
+		mat4 local_Transform	= translate(new_Pos) * toMat4(new_Rot) * scale(new_Scale);
+
+		// Get the right bone for the given track.
+		int bone_Index = _animation->m_tracks[track_Index].m_boneIndex;
+
+		// Set the FBXNode's local trancsform to match.
+		if (bone_Index < _skeletion->m_boneCount)
+		{
+			_skeletion->m_nodes[bone_Index]->m_localTransform = local_Transform;
+		}
+	}
+}
+
+void Assignment::UpdateBones(FBXSkeleton* _skeleton)
+{
+	// Loop though the nodes in the skeleton.
+	for (unsigned int bone_Index = 0; bone_Index < _skeleton->m_boneCount; bone_Index++)
+	{
+		// Generate theie global transform.
+		int parent_Index = _skeleton->m_parentIndex[bone_Index];
+
+		if (parent_Index == -1)
+		{
+			_skeleton->m_bones[bone_Index] = _skeleton->m_nodes[bone_Index]->m_localTransform;
+		}
+		else
+		{
+			_skeleton->m_bones[bone_Index] = _skeleton->m_bones[parent_Index] *_skeleton->m_nodes[bone_Index]->m_localTransform;
+		}
+	}
+
+	for (unsigned int bone_Index = 0; bone_Index < _skeleton->m_boneCount; bone_Index++)
+	{
+		// Multiply the global transform transform by the invser bind pose
+		_skeleton->m_bones[bone_Index] = _skeleton->m_bones[bone_Index] * _skeleton->m_bindPoses[bone_Index];
+	}
+}
+// ----------------------------------------------------------------------------
+
+// AntTweakBar stuff.
+void Assignment::AntTweakButtons()
+{
+	m_bar = TwNewBar("GUI");
+
+	// GUI for the terrian.
+	TwAddVarRW(m_bar, "Real Dims", TW_TYPE_FLOAT, &m_real_Dims, "group=Terrian Settings");
+	TwAddVarRW(m_bar, "Dims", TW_TYPE_FLOAT, &m_dims, "group=Terrian Settings");
+	TwAddVarRW(m_bar, "Octaves", TW_TYPE_INT32, &m_octaves, "group=Terrian Settings");
+	TwAddVarRW(m_bar, "Persistance", TW_TYPE_FLOAT, &m_persistance, "group=Terrian Settings");
+	TwAddVarRW(m_bar, "Jitter", TW_TYPE_FLOAT, &m_scale, "group=Terrian Settings");
+	// -----------------------------------
+
+	// GUI for the animated mesh.
+	TwAddVarRW(m_bar, "Position", TW_TYPE_FLOAT, &m_mesh_Position, "group=Animated Mesh");
+	// -----------------------------------
+
+	TwAddVarRW(m_bar, "Reload", TW_TYPE_BOOL8, &m_reload, "");
+
+
+
+}
+// ----------------------------------------------------------------------------
 
 void Assignment::LoadTexture()
 {
@@ -313,7 +524,7 @@ void Assignment::LoadTexture()
 
 	stbi_image_free(data);
 
-	data = stbi_load("./textures/rock_normal.tga", &image_Width, &image_Height, &image_Format, STBI_default);
+	/*data = stbi_load("./textures/rock_normal.tga", &image_Width, &image_Height, &image_Format, STBI_default);
 
 	glGenTextures(1, &m_terrian_Normal);
 	glBindTexture(GL_TEXTURE_2D, m_terrian_Normal);
@@ -321,7 +532,7 @@ void Assignment::LoadTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	stbi_image_free(data);
+	stbi_image_free(data);*/
 }
 
 void Assignment::ReloadShader()

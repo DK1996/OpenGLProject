@@ -10,11 +10,14 @@
 
 #include "AntTweakBar.h"
 #include "tiny_obj_loader.h"
+#include "FBXFile.h"
 
 #include "Vertex.h"
 #include "Uitility.h"
 
 #include <GLFW/glfw3.h>
+
+using namespace std;
 
 class Assignment : public Application
 {
@@ -51,13 +54,30 @@ public:
 	bool			m_reload;
 	// -----------------------------------
 
+	//Building animation meshes.
+	void GenerateGLMesh(FBXFile* _fbx);
+
+	void EvaluateSkeleton(FBXAnimation* _animation, FBXSkeleton* _skeleton, float _timer);
+	void UpdateBones(FBXSkeleton* _skeleton);
+
+	unsigned int		m_fbx_Program_ID;
+
+	vec4				m_mesh_Position;
+
+	vector<OpenGLData>	m_meshes;
+
+	FBXFile*			m_fbx_File;
+	// -----------------------------------
+
+	void AntTweakButtons();
+
 	void LoadTexture();
 
 	void ReloadShader();
 
-	TwBar*		m_bar;
+	float m_timer;
 
-	FlyCamera*	m_speed;
+	TwBar*		m_bar;
 
 private:
 

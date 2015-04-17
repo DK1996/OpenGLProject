@@ -27,7 +27,7 @@ bool Animation::StartUp()
 	m_file->initialiseOpenGLTextures();
 
 	GenerateGLMeshes(m_file);
-	LoadShader("./Shaders/Skinned_Vertex.glsl", "./Shaders/Skinned_Fragment.glsl", nullptr, &m_program_ID);
+	LoadShader("./Shaders/Skinned_Vertex.glsl", nullptr,"./Shaders/Skinned_Fragment.glsl", &m_program_ID);
 	//LoadShader("./Shaders/Particle_Vertex.glsl", "./Shaders/Particle_Fragment.glsl", &m_program_ID);
 
 	m_timer = 0;
@@ -100,7 +100,7 @@ void Animation::Draw()
 	glUniform1i(diffuse_Uniform, 0);
 
 	FBXSkeleton* skeleton = m_file->getSkeletonByIndex(0);
-	//skeleton->updateBones();
+	skeleton->updateBones();
 
 	UpdateBones(skeleton);
 
