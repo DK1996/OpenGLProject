@@ -60,6 +60,10 @@ bool Assignment::StartUp()
 	m_fbx_File = new FBXFile();
 	m_fbx_File->load("./Models/characters/Enemyelite/EnemyElite.fbx");
 	m_fbx_File->initialiseOpenGLTextures();
+
+	/*m_fbx_File_2 = new FBXFile();
+	m_fbx_File_2->load("./Models/characters/Pyro/pyro.fbx");
+	m_fbx_File_2->initialiseOpenGLTextures();*/
 	// -----------------------------------
 
 	m_mesh_Position = vec4(0);
@@ -90,11 +94,13 @@ bool Assignment::StartUp()
 
 	// Calling the animated mesh.
 	GenerateGLMesh(m_fbx_File);
+	/*GenerateGLMesh2(m_fbx_File_2);*/
 	// -----------------------------------
 
 	// Loading the shaders here...
 	LoadShader("./Shaders/Perlin_Vertex.glsl", 0, "./Shaders/Perlin_Fragment.glsl", &m_perlin_Program_ID);	// Shaders for the procedural generation.
 	LoadShader("./Shaders/Skinned_Vertex.glsl", 0, "./Shaders/Skinned_Fragment.glsl", &m_fbx_Program_ID);	// Shaders for the animation meshes.
+	/*LoadShader("./Shaders/Animation_Vertex.glsl", 0, "./Shaders/Animation_Fragment.glsl", &m_fbx_Program_ID_2);*/
 	// -----------------------------------
 
 	LoadTexture();
@@ -203,6 +209,7 @@ void Assignment::Draw()
 	// -----------------------------------
 
 	// Drawing the Animated mesh.
+	// Animated mesh #1.
 	glUseProgram(m_fbx_Program_ID);
 
 	int proj_View_Uni		= glGetUniformLocation(m_fbx_Program_ID, "projection_view");
@@ -211,8 +218,8 @@ void Assignment::Draw()
 	int diffuse_Uni			= glGetUniformLocation(m_fbx_Program_ID, "diffuse");
 	glUniform1i(diffuse_Uni, 0);
 
-	int pos_Uni				= glGetUniformLocation(m_fbx_Program_ID, "final_Position");
-	glUniform4fv(pos_Uni, 1, (float*)&m_mesh_Position);
+	/*int pos_Uni				= glGetUniformLocation(m_fbx_Program_ID, "final_Position");
+	glUniform4fv(pos_Uni, 1, (float*)&m_mesh_Position);*/
 
 	FBXSkeleton* skeleton	= m_fbx_File->getSkeletonByIndex(0);
 	skeleton->updateBones();
@@ -237,6 +244,44 @@ void Assignment::Draw()
 		glBindVertexArray(m_meshes[i].m_VAO);
 		glDrawElements(GL_TRIANGLES, m_meshes[i].m_index_Count, GL_UNSIGNED_INT, 0);
 	}
+	// -----------------------------------
+
+	// Animated mesh #2.
+	/*glUseProgram(m_fbx_Program_ID_2);
+
+	int proj_View_Uni_2 = glGetUniformLocation(m_fbx_Program_ID, "projection_view");
+	glUniformMatrix4fv(proj_View_Uni_2, 1, GL_FALSE, (float*)&m_camera->m_projectionView);
+
+	int diffuse_Uni_2 = glGetUniformLocation(m_fbx_Program_ID_2, "diffuse");
+	glUniform1i(diffuse_Uni_2, 0);
+
+	//int pos_Uni				= glGetUniformLocation(m_fbx_Program_ID, "final_Position");
+	//glUniform4fv(pos_Uni, 1, (float*)&m_mesh_Position);
+
+	FBXSkeleton* skeleton_2 = m_fbx_File->getSkeletonByIndex(0);
+	skeleton_2->updateBones();
+
+	UpdateBones(skeleton);
+
+	int bones_Uni_2 = glGetUniformLocation(m_fbx_Program_ID_2, "bones");
+	glUniformMatrix4fv(bones_Uni_2, skeleton->m_boneCount, GL_FALSE, (float*)skeleton->m_bones);
+
+	for (unsigned int i = 0; i < m_meshes_2.size(); i++)
+	{
+		FBXMeshNode* current_Mesh = m_fbx_File->getMeshByIndex(i);
+		FBXMaterial* mesh_Material = current_Mesh->m_material;
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mesh_Material->textures[FBXMaterial::DiffuseTexture]->handle);
+
+		mat4 world_Transform = current_Mesh->m_globalTransform;
+		int world_Uni = glGetUniformLocation(m_fbx_Program_ID_2, "world");
+		glUniformMatrix4fv(world_Uni, 1, GL_FALSE, (float*)&world_Transform);
+
+		glBindVertexArray(m_meshes_2[i].m_VAO);
+		glDrawElements(GL_TRIANGLES, m_meshes_2[i].m_index_Count, GL_UNSIGNED_INT, 0);
+	}*/
+	// -----------------------------------
 	// -----------------------------------
 
 	TwDraw();
@@ -385,6 +430,7 @@ void Assignment::GenerateGLMesh(FBXFile* _fbx)
 {
 	unsigned int mesh_Count = _fbx->getMeshCount();
 
+	// Generating the meshes for the first animated object.
 	m_meshes.resize(mesh_Count);
 
 	for (unsigned int  mesh_Index = 0; mesh_Index < mesh_Count; mesh_Index++)
@@ -418,7 +464,50 @@ void Assignment::GenerateGLMesh(FBXFile* _fbx)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+	// -----------------------------------
 }
+
+// The #2 animated mesh...
+//void Assignment::GenerateGLMesh2(FBXFile* _fbx)
+//{
+//	unsigned int mesh_Count = _fbx->getMeshCount();
+//
+//	m_meshes_2.resize(mesh_Count);
+//
+//	// Generating the meshes for the second animated object,
+//	for (unsigned int mesh_Index = 0; mesh_Index < mesh_Count; mesh_Index++)
+//	{
+//		FBXMeshNode* current_Mesh = _fbx->getMeshByIndex(mesh_Index);
+//
+//		m_meshes_2[mesh_Index].m_index_Count = current_Mesh->m_indices.size();
+//
+//		glGenVertexArrays(	1, &m_meshes_2[mesh_Index].m_VAO );
+//		glGenBuffers(		1, &m_meshes_2[mesh_Index].m_VBO );
+//		glGenBuffers(		1, &m_meshes_2[mesh_Index].m_IBO );
+//
+//		glBindVertexArray(						m_meshes_2[mesh_Index].m_VAO);
+//		glBindBuffer(GL_ARRAY_BUFFER,			m_meshes_2[mesh_Index].m_VBO);
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	m_meshes_2[mesh_Index].m_IBO);
+//
+//		glBufferData(GL_ARRAY_BUFFER,			sizeof(FBXVertex)*		current_Mesh->m_vertices.size(),	current_Mesh->m_vertices.data(),	GL_STATIC_DRAW);
+//		glBufferData(GL_ELEMENT_ARRAY_BUFFER,	sizeof(unsigned int)*	current_Mesh->m_indices.size(),		current_Mesh->m_indices.data(),		GL_STATIC_DRAW);
+//
+//		glEnableVertexAttribArray(0); // Position.
+//		glEnableVertexAttribArray(1); // Tex Coord.
+//		glEnableVertexAttribArray(2); // Bone Indices.
+//		glEnableVertexAttribArray(3); // Bone Weights.
+//
+//		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::PositionOffset);
+//		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::TexCoord1Offset);
+//		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::IndicesOffset);
+//		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(FBXVertex), (void*)FBXVertex::WeightsOffset);
+//
+//		glBindVertexArray(0);
+//		glBindBuffer(GL_ARRAY_BUFFER, 0);
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//	}
+//	// -----------------------------------
+//}
 
 void Assignment::EvaluateSkeleton(FBXAnimation* _animation, FBXSkeleton* _skeletion, float _timer)
 {

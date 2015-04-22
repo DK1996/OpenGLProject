@@ -157,6 +157,8 @@
     <ClCompile Include="src\Uitility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Shaders\Animation_Fragment.glsl" />
+    <None Include="data\Shaders\Animation_Vertex.glsl" />
     <None Include="data\Shaders\basic_fragment.glsl" />
     <None Include="data\Shaders\Basic_Vertex.glsl" />
     <None Include="data\Shaders\Composite_Fragment.glsl" />

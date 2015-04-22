@@ -4,7 +4,6 @@ layout(location=0) in vec4 position;
 layout(location=1) in vec2 tex_coord;
 layout(location=2) in vec4 bone_Indices;
 layout(location=3) in vec4 bone_Weights;
-layout(location=4) in vec4 position_2
 
 out vec2 frag_tex_coord;
 
@@ -20,7 +19,7 @@ void main()
 	frag_tex_coord = tex_coord;
 
 	ivec4 indices = ivec4(bone_Indices);
-	vec4 final_Position = vec4(0, 0, 0, 0);
+	vec4 final_Position = vec4(10, 0, 10, 0);
 
 	final_Position += bones[indices.x] * position * bone_Weights.x;
 	final_Position += bones[indices.y] * position * bone_Weights.y;

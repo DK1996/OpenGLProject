@@ -56,17 +56,21 @@ public:
 
 	//Building animation meshes.
 	void GenerateGLMesh(FBXFile* _fbx);
+	void GenerateGLMesh2(FBXFile* _fbx);
 
 	void EvaluateSkeleton(FBXAnimation* _animation, FBXSkeleton* _skeleton, float _timer);
 	void UpdateBones(FBXSkeleton* _skeleton);
 
 	unsigned int		m_fbx_Program_ID;
+	unsigned int		m_fbx_Program_ID_2;
 
 	vec4				m_mesh_Position;
 
 	vector<OpenGLData>	m_meshes;
+	vector<OpenGLData>	m_meshes_2;
 
 	FBXFile*			m_fbx_File;
+	FBXFile*			m_fbx_File_2;	
 	// -----------------------------------
 
 	void AntTweakButtons();

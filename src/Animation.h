@@ -3,7 +3,6 @@
 
 #include "Application.h"
 #include "Camera.h"			
-
 #include <FBXFile.h>
 #include "Vertex.h"
 
