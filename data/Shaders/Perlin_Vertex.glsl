@@ -2,8 +2,10 @@
 
 layout(location=0) in vec4 position;
 layout(location=1) in vec2 tex_Coord;
+layout(location=2) in vec4 Normals;
 
 out vec2 frag_Tex_Coord;
+out vec4 frag_Normal;
 
 uniform mat4 view_Proj;
 uniform float time;

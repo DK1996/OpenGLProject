@@ -64,6 +64,10 @@ public:
 	unsigned int		m_fbx_Program_ID;
 	unsigned int		m_fbx_Program_ID_2;
 
+	float				m_fps;
+
+	int					m_current_Frame;
+
 	vec4				m_mesh_Position;
 
 	vector<OpenGLData>	m_meshes;
@@ -71,6 +75,16 @@ public:
 
 	FBXFile*			m_fbx_File;
 	FBXFile*			m_fbx_File_2;	
+	// -----------------------------------
+
+	// Lighting...
+	unsigned int light_Program_ID;
+
+	vec3 light_Dir;
+	vec3 light_Color;
+	vec3 ambient_Light;
+
+	float specular_Power;
 	// -----------------------------------
 
 	void AntTweakButtons();

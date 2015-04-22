@@ -72,6 +72,8 @@ bool Lighting::Update()
 		ReloadShader();
 	}
 
+	dt = glfwGetTime();
+	glfwSetTime(0.0);
 	m_camera->Update(dt);
 
 	return true;
@@ -79,7 +81,7 @@ bool Lighting::Update()
 
 void Lighting::Draw()
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Gizmos::draw(m_camera->m_projectionView);
