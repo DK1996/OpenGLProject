@@ -681,27 +681,24 @@ void Assignment::AntTweakButtons()
 	m_bar = TwNewBar("GUI");
 
 	// GUI for the terrian.
-	TwAddVarRW(m_bar, "Real Dims", TW_TYPE_FLOAT, &m_real_Dims, "group=Terrian_Settings");
-	TwAddVarRW(m_bar, "Dims", TW_TYPE_FLOAT, &m_dims, "group=Terrian_Settings");
-	TwAddVarRW(m_bar, "Octaves", TW_TYPE_INT32, &m_octaves, "group=Terrian_Settings");
-	TwAddVarRW(m_bar, "Persistance", TW_TYPE_FLOAT, &m_persistance, "group=Terrian_Settings");
-	TwAddVarRW(m_bar, "Jitter", TW_TYPE_FLOAT, &m_scale, "group=Terrian_Settings");
+	TwAddVarRW(m_bar, "Real Dims",			TW_TYPE_FLOAT, &m_real_Dims,	"group=Terrian_Settings");
+	TwAddVarRW(m_bar, "Dims",				TW_TYPE_FLOAT, &m_dims,			"group=Terrian_Settings");
+	TwAddVarRW(m_bar, "Octaves",			TW_TYPE_INT32, &m_octaves,		"group=Terrian_Settings");
+	TwAddVarRW(m_bar, "Persistance",		TW_TYPE_FLOAT, &m_persistance,	"group=Terrian_Settings");
+	TwAddVarRW(m_bar, "Jitter",				TW_TYPE_FLOAT, &m_scale,		"group=Terrian_Settings");
 	// -----------------------------------
 
 	// GUI for the animated mesh.
 	/*TwAddVarRW(m_bar, "Position", TW_TYPE_FLOAT, &m_mesh_Position, "group=Animated Mesh");*/
-
-	TwAddVarRW(m_bar, "Animation_FPS", TW_TYPE_FLOAT, &m_fps, "group=Animated_Mesh");
-	//TwAddVarRW(m_bar, "Animation_Frame", TW_TYPE_INT32, &m_current_Frame, "group=Animated_Mesh");
+	TwAddVarRW(m_bar, "Animation_FPS",		TW_TYPE_FLOAT, &m_fps,			"group=Animated_Mesh");
+	/*TwAddVarRW(m_bar, "Animation_Frame", TW_TYPE_INT32, &m_current_Frame, "group=Animated_Mesh");*/
 	// -----------------------------------
 	
 	// GUI for the lighting.
-	TwAddVarRW(m_bar, "Light_Direction", TW_TYPE_DIR3F, &light_Dir, "");
+	TwAddVarRW(m_bar, "Light_Direction",	TW_TYPE_DIR3F, &light_Dir,		"group=Lighting");
+	TwAddVarRW(m_bar, "Light_Color",		TW_TYPE_COLOR3F, &light_Color,	"group=Lighting");
 
-	TwAddVarRW(m_bar, "Reload", TW_TYPE_BOOL8, &m_reload, "");
-
-
-
+	TwAddVarRW(m_bar, "Reload",				TW_TYPE_BOOL8, &m_reload,		"");
 }
 // ----------------------------------------------------------------------------
 
