@@ -43,15 +43,15 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>./deps/glfw/include;./deps/AntTweakBar/include;./deps/glm;./deps/FBXLoader;$(IncludePath)</IncludePath>
     <LibraryPath>./deps/glfw/lib-vc2013;./deps/AntTweakBar/lib;./deps/FBXLoader;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)build\</OutDir>
+    <OutDir>$(SolutionDir)build</OutDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>./deps/glfw/include;./deps/AntTweakBar/include;./deps/glm;./deps/FBXLoader;$(IncludePath)</IncludePath>
     <LibraryPath>./deps/glfw/lib-vc2013;./deps/AntTweakBar/lib;./deps/FBXLoader;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)build\</OutDir>
-    <TargetName>$(ProjectName)\deps</TargetName>
+    <OutDir>$(SolutionDir)build</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,7 +76,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;GLM_FORCE_PURE;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;GLM_FORCE_PURE;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>

@@ -32,14 +32,18 @@ void main()
 
 	vec3 final_Diffuse = vec3(d) * light_Color * color;
 
+	//frag_Color = vec4(ambient + final_Diffuse, 1);
+
+	//frag_Color = texture(diffuse, frag_Tex_Coord); //vec4(d,d,d,1);
+	
 	vec3 E = normalize(eye_Pos - frag_Position.xyz);
 	vec3 R = reflect(L, N);
-
+	
 	float s = max(0, dot(R, E));
 	s = pow(s, spec_Power);
 	vec3 specular = vec3(s) * light_Color * color;
-
-	frag_Color = vec4(ambient + final_Diffuse + specular, 1);
+	
+	frag_Color = vec4(ambient + final_Diffuse + specular, 1);// + specular, 1);
 
 	//frag_Color = texture(diffuse, frag_Tex_Coord);
 	
