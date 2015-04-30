@@ -17,6 +17,8 @@ public:
 	
 	void UpdateProjectionView();
 
+	vec3 PickAgainstPlane(float _x, float _y, vec4 _plane);
+
 	mat4 m_worldTransform;
 	mat4 m_viewTransform;
 	mat4 m_projectionTransform;

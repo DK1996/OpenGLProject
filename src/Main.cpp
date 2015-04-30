@@ -17,13 +17,15 @@
 //#include "ProceduralGeneration.h"
 //#include "AdvancedNavigation.h"
 
-#include "Assignment.h"
+//#include "Assignment.h"
+
+#include "GameTreeSearch.h"
 
 #include <cstdio>
 
 int main()
 {
-	Assignment app;
+	GameTreeSearch app;
 
 	if (app.StartUp() == false)
 	{

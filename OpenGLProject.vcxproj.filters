@@ -70,6 +70,9 @@
     <Filter Include="Assignment">
       <UniqueIdentifier>{fc210d63-e363-4ccd-bea3-66928cf3974d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Tree Search">
+      <UniqueIdentifier>{8bd22d5b-d52c-47c4-af2b-b5b62e119782}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gl_core_4_4.h">
@@ -171,6 +174,15 @@
     <ClInclude Include="src\Assignment.h">
       <Filter>Assignment</Filter>
     </ClInclude>
+    <ClInclude Include="src\AIBase.h">
+      <Filter>Game Tree Search</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectFour.h">
+      <Filter>Game Tree Search</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameTreeSearch.h">
+      <Filter>Game Tree Search</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\gl_core_4_4.c">
@@ -262,6 +274,12 @@
     </ClCompile>
     <ClCompile Include="src\Assignment.cpp">
       <Filter>Assignment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectFour.cpp">
+      <Filter>Game Tree Search</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameTreeSearch.cpp">
+      <Filter>Game Tree Search</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
